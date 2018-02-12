@@ -1,36 +1,47 @@
 package co.simplon.model;
 
 public class Suspect {
-	private Long id;
-	private String nom;
-	private String prenom;
-	private int age;
-	private int taille; //en centimetre
-	private String signeDistinctif;
-
-	public Long getId() {
-		return id;
+	private Long id_suspect;
+	private String nom_suspect;
+	private String prenom_suspect;
+	private String adresse;
+	private String date_naissance;
+	private int taille;
+	private int poids;
+	private String couleur_yeux;
+	private String couleur_peau;
+	private String signes_particuliers;
+	private String adn;
+	
+	public Long getId_suspect() {
+		return id_suspect;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setId_suspect(Long id_suspect) {
+		this.id_suspect = id_suspect;
 	}
-	public String getNom() {
-		return nom;
+	public String getNom_suspect() {
+		return nom_suspect;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setNom_suspect(String nom_suspect) {
+		this.nom_suspect = nom_suspect;
 	}
-	public String getPrenom() {
-		return prenom;
+	public String getPrenom_suspect() {
+		return prenom_suspect;
 	}
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setPrenom_suspect(String prenom_suspect) {
+		this.prenom_suspect = prenom_suspect;
 	}
-	public int getAge() {
-		return age;
+	public String getAdresse() {
+		return adresse;
 	}
-	public void setAge(int age) {
-		this.age = age;
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+	public String getDate_naissance() {
+		return date_naissance;
+	}
+	public void setDate_naissance(String date_naissance) {
+		this.date_naissance = date_naissance;
 	}
 	public int getTaille() {
 		return taille;
@@ -38,10 +49,36 @@ public class Suspect {
 	public void setTaille(int taille) {
 		this.taille = taille;
 	}
-	public String getSigneDistinctif() {
-		return signeDistinctif;
+	public int getPoids() {
+		return poids;
 	}
-	public void setSigneDistinctif(String signeDistinctif) {
-		this.signeDistinctif = signeDistinctif;
+	public void setPoids(int poids) {
+		this.poids = poids;
 	}
+	public String getCouleur_yeux() {
+		return couleur_yeux;
+	}
+	public void setCouleur_yeux(String couleur_yeux) {
+		this.couleur_yeux = couleur_yeux;
+	}
+	public String getCouleur_peau() {
+		return couleur_peau;
+	}
+	public void setCouleur_peau(String couleur_peau) {
+		this.couleur_peau = couleur_peau;
+	}
+	public String getSignes_particuliers() {
+		return signes_particuliers;
+	}
+	public void setSignes_particuliers(String signes_particuliers) {
+		this.signes_particuliers = signes_particuliers;
+	}
+	public String getAdn() {
+		return adn;
+	}
+	public void setAdn(String adn) {
+		this.adn = adn;
+	}
+
+	
 }
