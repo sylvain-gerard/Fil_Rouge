@@ -153,6 +153,8 @@ CREATE TABLE IF NOT EXISTS `filrouge`.`suspects_has_affaires` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+ALTER TABLE `filrouge`.`affaires` 
+ADD COLUMN `nom_affaire` VARCHAR(45) NULL AFTER `classee`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
