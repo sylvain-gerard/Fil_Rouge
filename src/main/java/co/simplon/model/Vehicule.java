@@ -1,16 +1,17 @@
 package co.simplon.model;
 
 public class Vehicule {
-	private Long id_vehicules;
+	private Long id_vehicule;
 	private String modele_vehicule;
 	private String marque_vehicule;
 	private String immatriculation;
 	private String couleur_vehicule;
+	
 	public Long getId_vehicules() {
-		return id_vehicules;
+		return id_vehicule;
 	}
-	public void setId_vehicules(Long id_vehicules) {
-		this.id_vehicules = id_vehicules;
+	public void setId_vehicules(Long id_vehicule) {
+		this.id_vehicule = id_vehicule;
 	}
 	public String getModele_vehicule() {
 		return modele_vehicule;
