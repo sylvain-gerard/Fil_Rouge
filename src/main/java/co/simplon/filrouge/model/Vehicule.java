@@ -1,4 +1,4 @@
-package co.simplon.model;
+package co.simplon.filrouge.model;
 
 public class Vehicule {
 	private Long id_vehicule;
