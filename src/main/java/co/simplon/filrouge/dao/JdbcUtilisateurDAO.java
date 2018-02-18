@@ -72,13 +72,13 @@ public class JdbcUtilisateurDAO implements UtilisateurDAO{
 	/**
 	 * Build an actor object with data from the ResultSet
 	 * @param rs : the ResultSet to process.
-	 * @return Actor : The new Actor object
+	 * @return Utilisateur : The new Utilisateur object
 	 */
 	private Utilisateur getUtilisateurFromResultSet(ResultSet rs) throws SQLException {
 		
 		Utilisateur utilisateur = new Utilisateur();
 		
-		utilisateur.setId_utilisateur(rs.getLong("id_utilisateur"));
+		utilisateur.setId(rs.getLong("id_utilisateur"));
 		utilisateur.setNom(rs.getString("nom_utilisateur"));
 		utilisateur.setPrenom(rs.getString("prenom_utilisateur"));
 		utilisateur.setPassword(rs.getString("password"));

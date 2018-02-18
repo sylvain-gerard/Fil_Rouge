@@ -1,30 +1,14 @@
 package co.simplon.filrouge.model;
 
-public class Vehicule {
-	private Long id_vehicule;
-	private String modele_vehicule;
-	private String marque_vehicule;
+public class Vehicule extends Objet{
+	
 	private String immatriculation;
 	private String couleur_vehicule;
 	
-	public Long getId_vehicules() {
-		return id_vehicule;
+	public Vehicule() {
+		super();
 	}
-	public void setId_vehicules(Long id_vehicule) {
-		this.id_vehicule = id_vehicule;
-	}
-	public String getModele_vehicule() {
-		return modele_vehicule;
-	}
-	public void setModele_vehicule(String modele_vehicule) {
-		this.modele_vehicule = modele_vehicule;
-	}
-	public String getMarque_vehicule() {
-		return marque_vehicule;
-	}
-	public void setMarque_vehicule(String marque_vehicule) {
-		this.marque_vehicule = marque_vehicule;
-	}
+	
 	public String getImmatriculation() {
 		return immatriculation;
 	}

@@ -5,9 +5,6 @@ package co.simplon.filrouge.model;
  */
 public class Utilisateur extends Humain{
 	
-	private Long id_utilisateur;
-	//private String nom_utilisateur; inutile si extends Humain
-	//private String prenom_utilisateur; inutile si extends Humain
 	private String matricule;
 	private String password;
 	private String habilitation;
@@ -15,32 +12,7 @@ public class Utilisateur extends Humain{
 	public Utilisateur() {
 		super();
 	}
-
-	public Long getId_utilisateur() {
-		return id_utilisateur;
-	}
-
-	public void setId_utilisateur(Long id_utilisateur) {
-		this.id_utilisateur = id_utilisateur;
-	}
-	/*  inutile si extends Humain
-	 * 
-	public String getNom_utilisateur() {
-		return nom_utilisateur;
-	}
-
-	public void setNom_utilisateur(String nom_utilisateur) {
-		this.nom_utilisateur = nom_utilisateur;
-	}
-
-	public String getPrenom_utilisateur() {
-		return prenom_utilisateur;
-	}
-
-	public void setPrenom_utilisateur(String prenom_utilisateur) {
-		this.prenom_utilisateur = prenom_utilisateur;
-	}
-	 */
+	
 	public String getMatricule() {
 		return matricule;
 	}
