@@ -1,9 +1,8 @@
 package co.simplon.filrouge.model;
 
-public class Suspect {
+public class Suspect extends Humain{
+	
 	private Long id_suspect;
-	private String nom_suspect;
-	private String prenom_suspect;
 	private String adresse;
 	private String date_naissance;
 	private int taille;
@@ -18,18 +17,6 @@ public class Suspect {
 	}
 	public void setId_suspect(Long id_suspect) {
 		this.id_suspect = id_suspect;
-	}
-	public String getNom_suspect() {
-		return nom_suspect;
-	}
-	public void setNom_suspect(String nom_suspect) {
-		this.nom_suspect = nom_suspect;
-	}
-	public String getPrenom_suspect() {
-		return prenom_suspect;
-	}
-	public void setPrenom_suspect(String prenom_suspect) {
-		this.prenom_suspect = prenom_suspect;
 	}
 	public String getAdresse() {
 		return adresse;
