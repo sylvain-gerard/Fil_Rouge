@@ -79,8 +79,8 @@ public class JdbcUtilisateurDAO implements UtilisateurDAO{
 		Utilisateur utilisateur = new Utilisateur();
 		
 		utilisateur.setId_utilisateur(rs.getLong("id_utilisateur"));
-		utilisateur.setNom_utilisateur(rs.getString("nom_utilisateur"));
-		utilisateur.setPrenom_utilisateur(rs.getString("prenom_utilisateur"));
+		utilisateur.setNom(rs.getString("nom_utilisateur"));
+		utilisateur.setPrenom(rs.getString("prenom_utilisateur"));
 		utilisateur.setPassword(rs.getString("password"));
 		utilisateur.setHabilitation(rs.getString("habilitation"));
 		utilisateur.setMatricule(rs.getString("matricule"));
