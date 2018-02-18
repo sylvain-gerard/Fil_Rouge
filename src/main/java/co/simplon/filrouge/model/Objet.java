@@ -13,7 +13,9 @@ public abstract class Objet {
 	private String infos_complementaire;
 	private List<String> photos;
 	
-	
+	protected Objet() {
+		
+	}
 	
 	public Long getId() {
 		return id;
