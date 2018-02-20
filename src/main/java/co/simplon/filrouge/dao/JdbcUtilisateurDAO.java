@@ -79,8 +79,8 @@ public class JdbcUtilisateurDAO implements UtilisateurDAO{
 		Utilisateur utilisateur = new Utilisateur();
 		
 		utilisateur.setId(rs.getLong("id_utilisateur"));
-		utilisateur.setNom(rs.getString("nom_utilisateur"));
-		utilisateur.setPrenom(rs.getString("prenom_utilisateur"));
+		utilisateur.setNom(rs.getString("nom"));
+		utilisateur.setPrenom(rs.getString("prenom"));
 		utilisateur.setPassword(rs.getString("password"));
 		utilisateur.setHabilitation(rs.getString("habilitation"));
 		utilisateur.setMatricule(rs.getString("matricule"));
@@ -101,6 +101,37 @@ public class JdbcUtilisateurDAO implements UtilisateurDAO{
 		
 		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
 		log.debug(sql);
+	}
+
+	@Override
+	public Utilisateur affichertUtilisateur(Long id) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		Utilisateur utilisateur = null;
+		
+		try {
+			// Prepare the SQL query
+			String sql = "SELECT * FROM utilisateur WHERE id_utilisateur = ?";
+			pstmt = datasource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id);
+
+			// Log info
+			logSQL(pstmt);
+
+			// Run the query
+			rs = pstmt.executeQuery();
+			
+			// Handle the query results
+			if (rs.next())
+				utilisateur = getUtilisateurFromResultSet(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+		return utilisateur;
 	}
 
 }

@@ -8,9 +8,6 @@ public class Suspect extends Humain{
 	private String date_naissance;
 	private int taille;
 	private int poids;
-	private String couleur_yeux;
-	private String couleur_peau;
-	private String couleur_cheveux;
 	private String signes_particuliers;
 	private String adn;
 	private String sexe;
@@ -18,7 +15,6 @@ public class Suspect extends Humain{
 	private String infos_suspect;
 	private List<String> photo_suspect;
 	private String empreinte_suspect;
-	private String document_suspect;
 	
 	public Suspect() {
 		super();
@@ -48,18 +44,7 @@ public class Suspect extends Humain{
 	public void setPoids(int poids) {
 		this.poids = poids;
 	}
-	public String getCouleur_yeux() {
-		return couleur_yeux;
-	}
-	public void setCouleur_yeux(String couleur_yeux) {
-		this.couleur_yeux = couleur_yeux;
-	}
-	public String getCouleur_peau() {
-		return couleur_peau;
-	}
-	public void setCouleur_peau(String couleur_peau) {
-		this.couleur_peau = couleur_peau;
-	}
+
 	public String getSignes_particuliers() {
 		return signes_particuliers;
 	}
@@ -71,12 +56,6 @@ public class Suspect extends Humain{
 	}
 	public void setAdn(String adn) {
 		this.adn = adn;
-	}
-	public String getCouleur_cheveux() {
-		return couleur_cheveux;
-	}
-	public void setCouleur_cheveux(String couleur_cheveux) {
-		this.couleur_cheveux = couleur_cheveux;
 	}
 	public String getSexe() {
 		return sexe;
@@ -108,12 +87,4 @@ public class Suspect extends Humain{
 	public void setEmpreinte_suspect(String empreinte_suspect) {
 		this.empreinte_suspect = empreinte_suspect;
 	}
-	public String getDocument_suspect() {
-		return document_suspect;
-	}
-	public void setDocument_suspect(String document_suspect) {
-		this.document_suspect = document_suspect;
-	}
-	
-	
 }

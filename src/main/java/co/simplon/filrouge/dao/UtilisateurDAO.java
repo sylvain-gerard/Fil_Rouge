@@ -8,4 +8,6 @@ public interface UtilisateurDAO {
 
 	public List<Utilisateur> listUtilisateurs() throws Exception;
 
+	public Utilisateur affichertUtilisateur(Long id) throws Exception;
+
 }

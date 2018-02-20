@@ -19,5 +19,10 @@ public class UtilisateurService {
 		return utilisateurDAO.listUtilisateurs();
 	}
 
+	public Utilisateur getUtilisateur(Long id) throws Exception {
+		// TODO Auto-generated method stub
+		return utilisateurDAO.affichertUtilisateur(id);
+	}
+
 
 }
