@@ -1,13 +1,26 @@
 package co.simplon.filrouge.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Humain {
 	
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String nom;
 	private String prenom;
 	
 	protected Humain() {
 		
+	}
+	
+	protected Humain(String nom, String prenom) {
+		this.nom = nom;
+		this.prenom = prenom;
 	}
 	
 	public Long getId() {

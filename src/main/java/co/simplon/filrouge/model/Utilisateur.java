@@ -1,8 +1,11 @@
 package co.simplon.filrouge.model;
 
+import javax.persistence.Entity;
+
 /**
  * bean Utilisateur
  */
+@Entity
 public class Utilisateur extends Humain{
 	
 	private String matricule;
@@ -10,7 +13,13 @@ public class Utilisateur extends Humain{
 	private String habilitation;
 	
 	public Utilisateur() {
-		super();
+	}
+	
+	public Utilisateur(String nom, String prenom, String matricule, String password, String habilitation) {
+		super(nom, prenom);
+		this.matricule = matricule;
+		this.password = password;
+		this.habilitation = habilitation;
 	}
 	
 	public String getMatricule() {
