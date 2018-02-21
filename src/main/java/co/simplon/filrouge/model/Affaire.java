@@ -1,18 +1,50 @@
 package co.simplon.filrouge.model;
 
 import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
+@Table(name = "affaire")
 public class Affaire {
 	
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id_affaire;
+    
 	private String nom_affaire;
 	private String date_creation;
 	private String date_cloture;
 	private boolean classee=false;
 	private String pieces_conviction;
-	private List<Suspect> suspectsList;
-	private List<Arme> armesList;
-	private List<Vehicule> vehiculesList;
+	//private List<Suspect> suspectsList;
+	//private List<Arme> armesList;
+	//private List<Vehicule> vehiculesList;
+	
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(name = "affaire_arme",
+            joinColumns = { @JoinColumn(name = "id_affaire") },
+            inverseJoinColumns = { @JoinColumn(name = "id_arme",nullable = false, updatable = false) })
+    private Set<Arme> arme = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(name = "affaire_vehicule",
+            joinColumns = { @JoinColumn(name = "id_affaire") },
+            inverseJoinColumns = { @JoinColumn(name = "id_vehicule",nullable = false, updatable = false) })
+    private Set<Vehicule> vehicule = new HashSet<>();
 	
 	public Affaire() {
 		
@@ -65,27 +97,27 @@ public class Affaire {
 		this.classee = classee;
 	}
 
-	public List<Suspect> getSuspectsList() {
-		return suspectsList;
-	}
-
-	public void setSuspectsList(List<Suspect> suspectsList) {
-		this.suspectsList = suspectsList;
-	}
-
-	public List<Arme> getArmesList() {
-		return armesList;
-	}
-
-	public void setArmesList(List<Arme> armesList) {
-		this.armesList = armesList;
-	}
-
-	public List<Vehicule> getVehiculesList() {
-		return vehiculesList;
-	}
-
-	public void setVehiculesList(List<Vehicule> vehiculesList) {
-		this.vehiculesList = vehiculesList;
-	}
+//	public List<Suspect> getSuspectsList() {
+//		return suspectsList;
+//	}
+//
+//	public void setSuspectsList(List<Suspect> suspectsList) {
+//		this.suspectsList = suspectsList;
+//	}
+//
+//	public List<Arme> getArmesList() {
+//		return armesList;
+//	}
+//
+//	public void setArmesList(List<Arme> armesList) {
+//		this.armesList = armesList;
+//	}
+//
+//	public List<Vehicule> getVehiculesList() {
+//		return vehiculesList;
+//	}
+//
+//	public void setVehiculesList(List<Vehicule> vehiculesList) {
+//		this.vehiculesList = vehiculesList;
+//	}
 }
