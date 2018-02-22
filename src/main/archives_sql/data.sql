@@ -11,3 +11,7 @@ INSERT INTO `fil_rouge`.`arme` (`marque`, `modele`, `type`, `calibre`, `numero_s
 INSERT INTO `fil_rouge`.`vehicule` (`infos_complementaire`, `marque`, `modele`, `type`, `couleur_vehicule`, `immatriculation`) VALUES ('Antiquité', 'Citroen', '2CV', 'Voiture', 'Gris', '12AB45');
 INSERT INTO `fil_rouge`.`vehicule` (`infos_complementaire`, `marque`, `modele`, `type`, `couleur_vehicule`, `immatriculation`) VALUES ('', 'Renault', 'Kangoo', 'Utilitaire', 'Jaune', 'AB345RT');
 INSERT INTO `fil_rouge`.`vehicule` (`marque`, `modele`, `type`, `couleur_vehicule`, `immatriculation`) VALUES ('Scania', 'Serie G', 'Camion', 'Blanc', 'ER654YU');
+
+INSERT INTO `fil_rouge`.`affaire` (`classee`, `date_cloture`, `date_creation`, `nom_affaire`, `pieces_conviction`) VALUES (True, '12/03/1956', '01/02/1956', 'La Brouette disparue', 'Trace de pas, trace de roue.');
+INSERT INTO `fil_rouge`.`affaire` (`classee`, `date_cloture`, `date_creation`, `nom_affaire`) VALUES (False, '', '30/10/1985', 'Le petit Grégory');
+INSERT INTO `fil_rouge`.`affaire` (`classee`, `date_cloture`, `date_creation`, `nom_affaire`, `pieces_conviction`) VALUES (True, '21/06/2017', '13/12/2015', 'La sucette abandonnée', '');

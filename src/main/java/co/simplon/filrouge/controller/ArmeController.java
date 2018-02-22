@@ -33,7 +33,7 @@ public class ArmeController {
 		return armeService.getArme(id);		
 	}
 	
-	@DeleteMapping(path="/arme/delete/{id}")
+	@DeleteMapping(path="/arme/{id}")
 	public @ResponseBody void deleteArme(@PathVariable Long id) {
 		armeService.delete(id);
 	}

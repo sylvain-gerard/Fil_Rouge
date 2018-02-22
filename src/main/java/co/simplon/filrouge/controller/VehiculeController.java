@@ -33,7 +33,7 @@ public class VehiculeController {
 		return vehiculeService.getVehicule(id);		
 	}
 	
-	@DeleteMapping(path="/vehicule/delete/{id}")
+	@DeleteMapping(path="/vehicule/{id}")
 	public @ResponseBody void deleteVehicule(@PathVariable Long id) {
 		vehiculeService.delete(id);
 	}
