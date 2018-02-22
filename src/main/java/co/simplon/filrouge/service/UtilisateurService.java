@@ -2,16 +2,12 @@ package co.simplon.filrouge.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import co.simplon.filrouge.dao.UtilisateurDAO;
 import co.simplon.filrouge.model.Utilisateur;
 import co.simplon.filrouge.repository.UtilisateurRepository;
 
 
 @Service
 public class UtilisateurService {
-	
-	//@Autowired
-	//private UtilisateurDAO utilisateurDAO;
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository ;
@@ -37,8 +33,5 @@ public class UtilisateurService {
 	public Utilisateur editUtilisateur(Utilisateur user)  throws Exception {
 		return utilisateurRepository.save(user);
 	}
-	
-	public void clearUtilisateurTable() {
-		utilisateurRepository.deleteAll();;
-	}
+
 }

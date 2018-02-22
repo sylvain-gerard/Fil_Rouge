@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * bean Utilisateur
  */
 @Entity
-@Table(name="utilisateur")
+@Table(name= "utilisateur")
 public class Utilisateur extends Humain implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

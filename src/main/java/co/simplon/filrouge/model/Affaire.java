@@ -45,6 +45,17 @@ public class Affaire {
             joinColumns = { @JoinColumn(name = "id_affaire") },
             inverseJoinColumns = { @JoinColumn(name = "id_vehicule",nullable = false, updatable = false) })
     private Set<Vehicule> vehicule = new HashSet<>();
+    
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    
+    @JoinTable(name = "affaire_suspect",
+            joinColumns = { @JoinColumn(name = "id_affaire") },
+            inverseJoinColumns = { @JoinColumn(name = "id_suspect",nullable = false, updatable = false) })
+    private Set<Vehicule> suspect = new HashSet<>();
 	
 	public Affaire() {
 		
