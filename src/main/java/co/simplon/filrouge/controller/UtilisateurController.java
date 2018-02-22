@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.model.Utilisateur;
+import co.simplon.filrouge.repository.UtilisateurRepository;
 import co.simplon.filrouge.service.UtilisateurService;
 
 
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class UtilisateurController {
 	
 	@Autowired

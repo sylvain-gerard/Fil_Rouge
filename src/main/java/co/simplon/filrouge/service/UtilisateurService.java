@@ -37,5 +37,8 @@ public class UtilisateurService {
 	public Utilisateur editUtilisateur(Utilisateur user)  throws Exception {
 		return utilisateurRepository.save(user);
 	}
-
+	
+	public void clearUtilisateurTable() {
+		utilisateurRepository.deleteAll();;
+	}
 }
