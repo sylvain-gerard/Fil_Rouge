@@ -74,18 +74,20 @@ public class UtilisateurController {
 		return utilisateurService.getUtilisateur(id);		
 	}
 	
-	@DeleteMapping(path="/utilisateur/delete/{id}")
+	@DeleteMapping(path="/utilisateur/{id}")
 	public @ResponseBody void deleteUtilisateur(@PathVariable Long id) {
 		utilisateurService.delete(id);
 	}
 	
-	@PostMapping(path="/utilisateur/add")
-	public Utilisateur createUtilisateur(Utilisateur user) throws Exception{
-		return utilisateurService.addUtilisateur(user);
+	@PostMapping(path = "/utilisateurs")
+	public ResponseEntity<?> createUtilisateur(@RequestBody Utilisateur user) throws Exception{
+		Utilisateur newUser = utilisateurService.addUtilisateur(user);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 	
-	@PutMapping(path="/utilisateur/update")
-	public Utilisateur updateUtilisateur(Utilisateur user) throws Exception{
-		return utilisateurService.editUtilisateur(user);
+	@PutMapping(path="/utilisateurs")
+	public ResponseEntity<?> updateUtilisateur(@RequestBody Utilisateur user) throws Exception{
+		Utilisateur updatedUser = utilisateurService.addUtilisateur(user);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedUser);
 	}
 }
