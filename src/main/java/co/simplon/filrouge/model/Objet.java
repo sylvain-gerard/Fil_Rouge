@@ -14,21 +14,21 @@ public abstract class Objet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Size(max = 100)
+	//@Size(max = 100)
 	private Long id;
 
-	@Size(max = 100)
+	//@Size(max = 100)
 	private String type;
 	
-	@Size(max = 100)
+	//@Size(max = 100)
 	private String marque;
 	
-	@Size(max = 100)
+	//@Size(max = 100)
 	private String modele;
 	
 	//private List<Affaire> affaire;
 	
-	@Size(max = 250)
+	//@Size(max = 250)
 	private String infos_complementaire;
 	
 	//private List<String> photos;
