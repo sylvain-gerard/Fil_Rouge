@@ -54,24 +54,22 @@ public class Affaire {
 		classee=!classee;	
 	}
 	
-	public Long getId() {
+	public Long getId_affaire() {
 		return id_affaire;
 	}
-	public void setId(Long id) {
-		this.id_affaire = id;
+
+	public void setId_affaire(Long id_affaire) {
+		this.id_affaire = id_affaire;
 	}
-	public String getNom() {
+
+	public String getNom_affaire() {
 		return nom_affaire;
 	}
-	public void setNom(String nom) {
-		this.nom_affaire = nom;
+
+	public void setNom_affaire(String nom_affaire) {
+		this.nom_affaire = nom_affaire;
 	}
-	public boolean isEnCours() {
-		return classee;
-	}
-	public void setEnCours(boolean enCours) {
-		this.classee = enCours;
-	}
+
 	public String getDate_creation() {
 		return date_creation;
 	}
@@ -90,6 +88,7 @@ public class Affaire {
 	public void setPieces_conviction(String pieces_conviction) {
 		this.pieces_conviction = pieces_conviction;
 	}
+	
 	public boolean isClassee() {
 		return classee;
 	}
