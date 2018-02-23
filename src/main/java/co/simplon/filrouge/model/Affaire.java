@@ -13,7 +13,30 @@ import java.util.Set;
 public class Affaire {
 	
 
-    @Id
+    public Set<Arme> getArme() {
+		return arme;
+	}
+
+	public void setArme(Set<Arme> arme) {
+		this.arme = arme;
+	}
+
+	public Set<Vehicule> getVehicule() {
+		return vehicule;
+	}
+
+	public void setVehicule(Set<Vehicule> vehicule) {
+		this.vehicule = vehicule;
+	}
+
+	public Set<Suspect> getSuspect() {
+		return suspect;
+	}
+
+	public void setSuspect(Set<Suspect> suspect) {
+		this.suspect = suspect;
+	}
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id_affaire;
     
