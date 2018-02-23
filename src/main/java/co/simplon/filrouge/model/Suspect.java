@@ -1,5 +1,6 @@
 package co.simplon.filrouge.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 public class Suspect extends Humain{
 	
 	private String adresse;
-	private Timestamp date_naissance;
+	private Date date_naissance;
 	private double taille;
 	private double poids;
 	private String signes_particuliers;
@@ -42,11 +43,12 @@ public class Suspect extends Humain{
 	}
 	
 	
-	public Timestamp getDate_naissance() {
+
+	public Date getDate_naissance() {
 		return date_naissance;
 	}
 
-	public void setDate_naissance(Timestamp date_naissance) {
+	public void setDate_naissance(Date date_naissance) {
 		this.date_naissance = date_naissance;
 	}
 
