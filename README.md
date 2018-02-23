@@ -1,14 +1,30 @@
-## Pour afficher les utilisateurs :
-### faire : git pull --rebase origin dev
-### avant de lancer Springboot :
-- dans mysql, créer une BDD (un schema ) qui s'appelle "fil_rouge" et c'est tout pas de tables a crée...
+## Pratiques très conseillées:
+### Depuis gitBash avant de faire des modifications:
+- git checkout dev
+- git pull --rebase origin dev => se mettre à jour
+- créer sa branche : git checkout -b [nom_de_la_branche]
+- faire son job et tester dans Postman...
+- git status / git add / git commit => attendre avant de pusher !
+- git checkout dev
+- git pull
+- git merge [nom_de_la_branche] => voir si conflits, résoudre les conflits éventuels
+- git push
+- git branch -d [nom_de_la_branche] => supprimer sa branche
+
+### Avant de lancer la premièez fois Springboot :
+- dans mysql, créer une BDD (un schema ) qui s'appelle "fil_rouge", pas besoin de créer les tables.
 - copier data.sql de "src\main\archives_sql" dans "src\main\resources"
-- lancer springboot, il crée les tables et insert les données ( 4 utilisateurs pour l'instant ).
-- supprimer data.sql de "src\main\resources" ET AUSSI sur notre disque dur, grace à Eclipse qui le copie automatiquement ( ex: eclipse-workspace\Fil_Rouge\target\classes ), sinon il va dupliquer les data à chaque fois que vous lancez l'application.
-### dans Postman : il y a 2 Url qui renvoie du JSON avec GET :
+- lancer Springboot, il crée les tables et insert les données contenues dans data.sql.
+- supprimer data.sql de "src\main\resources" ET AUSSI sur notre disque dur dans chemin_du_projet\Fil_Rouge\target\classes. Sinon il va dupliquer les data à chaque fois que vous lancez l'application.
+- Ne faire cela qu'une seule fois, sauf vous voulez modifier les tables en changeant les attributs des modèles.
+- En cas de modifications, il vaut mieux supprimer la BDD "fil_rouge" ( clic-G + Drop Schema ) puis la recrée ( clic Droit + Create Schema ). Puis reprendre à l'étape 2.
+
+### Dans Postman : il y a 2 Url qui renvoie du JSON avec GET :
 - http://localhost:8080/api/utilisateurs
 - http://localhost:8080/api/utilisateur/{id}
-### Il y a une URL pour faire un DELETE utilisateur en renseignant son id:
-- http://localhost:8080/api/utilisateur/delete/{id}
-### L'ajout d'un utilisateur ne fonctionne pas encore ( n'insert que des null ).
-- http://localhost:8080/api//utilisateur/add ( TODO )
+### Une URL pour faire un DELETE d'un utilisateur en renseignant son id:
+- http://localhost:8080/api/utilisateur/{id}
+### L'ajout ( POST ) et l'upadte ( PUT ) d'un utilisateur se fait depuis:
+- http://localhost:8080/api/utilisateurs
+
+#### Idem pour arme(s), vehicule(s), affaire(s) et suspect(s)

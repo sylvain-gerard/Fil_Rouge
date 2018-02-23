@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.service.AffaireService;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class AffaireController {
 
 	@Autowired
