@@ -21,33 +21,33 @@ import co.simplon.filrouge.service.SuspectService;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class SuspectController {
-	
+
 	@Autowired
 	private SuspectService suspectService;
-	
-	@GetMapping(path="/suspects")
-	public @ResponseBody Iterable<Suspect> getAllSuspects() throws Exception{
-		return suspectService.getAllSuspects();		
+
+	@GetMapping(path = "/suspects")
+	public @ResponseBody Iterable<Suspect> getAllSuspects() throws Exception {
+		return suspectService.getAllSuspects();
 	}
-	
-	@GetMapping(path="/suspect/{id}")
-	public @ResponseBody Suspect getSuspect(@PathVariable Long id) throws Exception{
-		return suspectService.getSuspect(id);		
+
+	@GetMapping(path = "/suspect/{id}")
+	public @ResponseBody Suspect getSuspect(@PathVariable Long id) throws Exception {
+		return suspectService.getSuspect(id);
 	}
-	
-	@DeleteMapping(path="/suspect/{id}")
+
+	@DeleteMapping(path = "/suspect/{id}")
 	public @ResponseBody void deleteSuspect(@PathVariable Long id) throws Exception {
 		suspectService.deleteSuspect(id);
 	}
-	
+
 	@PostMapping(path = "/suspects")
-	public ResponseEntity<?> createSuspect(@RequestBody Suspect suspect) throws Exception{
+	public ResponseEntity<?> createSuspect(@RequestBody Suspect suspect) throws Exception {
 		Suspect newSuspect = suspectService.addSuspect(suspect);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newSuspect);
 	}
-	
-	@PutMapping(path="/suspects")
-	public ResponseEntity<?> updateSuspect(@RequestBody Suspect suspect) throws Exception{
+
+	@PutMapping(path = "/suspects")
+	public ResponseEntity<?> updateSuspect(@RequestBody Suspect suspect) throws Exception {
 		Suspect updatedSuspect = suspectService.editSuspect(suspect);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
 	}

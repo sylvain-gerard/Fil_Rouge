@@ -19,33 +19,33 @@ import co.simplon.filrouge.service.ArmeService;
 @RestController
 @RequestMapping("/api")
 public class ArmeController {
-	
+
 	@Autowired
 	private ArmeService armeService;
-	
-	@GetMapping(path="/armes")
-	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception{
-		return armeService.getAllArmes();		
+
+	@GetMapping(path = "/armes")
+	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception {
+		return armeService.getAllArmes();
 	}
-	
-	@GetMapping(path="/arme/{id}")
-	public @ResponseBody Arme getArme(@PathVariable Long id) throws Exception{
-		return armeService.getArme(id);		
+
+	@GetMapping(path = "/arme/{id}")
+	public @ResponseBody Arme getArme(@PathVariable Long id) throws Exception {
+		return armeService.getArme(id);
 	}
-	
-	@DeleteMapping(path="/arme/{id}")
+
+	@DeleteMapping(path = "/arme/{id}")
 	public @ResponseBody void deleteArme(@PathVariable Long id) {
 		armeService.delete(id);
 	}
-	
-	@PostMapping(path="/armes")
-	public ResponseEntity<?> createArme(@RequestBody Arme arme) throws Exception{
+
+	@PostMapping(path = "/armes")
+	public ResponseEntity<?> createArme(@RequestBody Arme arme) throws Exception {
 		Arme newArme = armeService.addArme(arme);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newArme);
 	}
-	
-	@PutMapping(path="/armes")
-	public ResponseEntity<?> updateArme(@RequestBody Arme arme) throws Exception{
+
+	@PutMapping(path = "/armes")
+	public ResponseEntity<?> updateArme(@RequestBody Arme arme) throws Exception {
 		Arme updateArme = armeService.addArme(arme);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateArme);
 	}

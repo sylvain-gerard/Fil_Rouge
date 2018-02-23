@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.model.Affaire;
-import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.service.AffaireService;
 
 @CrossOrigin(origins = "*")

@@ -1,11 +1,10 @@
 package co.simplon.filrouge.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import co.simplon.filrouge.model.Utilisateur;
 
-//This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
-//CRUD refers Create, Read, Update, Delete
-
+@Repository
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long> {
 
 }

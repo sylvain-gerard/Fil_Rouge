@@ -19,33 +19,33 @@ import co.simplon.filrouge.service.VehiculeService;
 @RestController
 @RequestMapping("/api")
 public class VehiculeController {
-	
+
 	@Autowired
 	private VehiculeService vehiculeService;
-	
-	@GetMapping(path="/vehicules")
-	public @ResponseBody Iterable<Vehicule> getAllVehicules() throws Exception{
-		return vehiculeService.getAllVehicules();		
+
+	@GetMapping(path = "/vehicules")
+	public @ResponseBody Iterable<Vehicule> getAllVehicules() throws Exception {
+		return vehiculeService.getAllVehicules();
 	}
-	
-	@GetMapping(path="/vehicule/{id}")
-	public @ResponseBody Vehicule getVehicule(@PathVariable Long id) throws Exception{
-		return vehiculeService.getVehicule(id);		
+
+	@GetMapping(path = "/vehicule/{id}")
+	public @ResponseBody Vehicule getVehicule(@PathVariable Long id) throws Exception {
+		return vehiculeService.getVehicule(id);
 	}
-	
-	@DeleteMapping(path="/vehicule/{id}")
+
+	@DeleteMapping(path = "/vehicule/{id}")
 	public @ResponseBody void deleteVehicule(@PathVariable Long id) {
 		vehiculeService.delete(id);
 	}
-	
-	@PostMapping(path="/vehicules")
-	public ResponseEntity<?> createVehicule(@RequestBody Vehicule vehicule) throws Exception{
+
+	@PostMapping(path = "/vehicules")
+	public ResponseEntity<?> createVehicule(@RequestBody Vehicule vehicule) throws Exception {
 		Vehicule newVehicule = vehiculeService.addVehicule(vehicule);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newVehicule);
 	}
-	
-	@PutMapping(path="/vehicules")
-	public ResponseEntity<?> updateVehicule(@RequestBody Vehicule vehicule) throws Exception{
+
+	@PutMapping(path = "/vehicules")
+	public ResponseEntity<?> updateVehicule(@RequestBody Vehicule vehicule) throws Exception {
 		Vehicule updateVehicule = vehiculeService.addVehicule(vehicule);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateVehicule);
 	}

@@ -1,9 +1,7 @@
 package co.simplon.filrouge.model;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,8 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "suspect")
-public class Suspect extends Humain{
-	
+public class Suspect extends Humain {
+
 	private String adresse;
 	private Date date_naissance;
 	private double taille;
@@ -23,26 +21,23 @@ public class Suspect extends Humain{
 	private String signes_particuliers;
 	private String adn;
 	private String sexe;
-	//private List <Affaire> affaires;
 	private String infos_suspect;
-	//private List<String> photo_suspect;
 	private String photo;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "suspect")
 	private Set<Affaire> affaire = new HashSet<>();
-	
+
 	public Suspect() {
 		super();
 	}
-	
+
 	public String getAdresse() {
 		return adresse;
 	}
+
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
-	
-	
 
 	public Date getDate_naissance() {
 		return date_naissance;
@@ -79,18 +74,23 @@ public class Suspect extends Humain{
 	public String getSignes_particuliers() {
 		return signes_particuliers;
 	}
+
 	public void setSignes_particuliers(String signes_particuliers) {
 		this.signes_particuliers = signes_particuliers;
 	}
+
 	public String getAdn() {
 		return adn;
 	}
+
 	public void setAdn(String adn) {
 		this.adn = adn;
 	}
+
 	public String getSexe() {
 		return sexe;
 	}
+
 	public String getPhoto() {
 		return photo;
 	}
@@ -106,6 +106,7 @@ public class Suspect extends Humain{
 	public String getInfos_suspect() {
 		return infos_suspect;
 	}
+
 	public void setInfos_suspect(String infos_suspect) {
 		this.infos_suspect = infos_suspect;
 	}

@@ -17,39 +17,37 @@ import org.springframework.web.bind.annotation.RestController;
 import co.simplon.filrouge.model.Utilisateur;
 import co.simplon.filrouge.service.UtilisateurService;
 
-
-
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class UtilisateurController {
-	
+
 	@Autowired
 	private UtilisateurService utilisateurService;
-	
-	@GetMapping(path="/utilisateurs")
-	public @ResponseBody Iterable<Utilisateur> getAllUtilisateurs() throws Exception{
-		return utilisateurService.getAllUtilisateurs();		
+
+	@GetMapping(path = "/utilisateurs")
+	public @ResponseBody Iterable<Utilisateur> getAllUtilisateurs() throws Exception {
+		return utilisateurService.getAllUtilisateurs();
 	}
-	
-	@GetMapping(path="/utilisateur/{id}")
-	public @ResponseBody Utilisateur getUtilisateur(@PathVariable Long id) throws Exception{
-		return utilisateurService.getUtilisateur(id);		
+
+	@GetMapping(path = "/utilisateur/{id}")
+	public @ResponseBody Utilisateur getUtilisateur(@PathVariable Long id) throws Exception {
+		return utilisateurService.getUtilisateur(id);
 	}
-	
-	@DeleteMapping(path="/utilisateur/{id}")
+
+	@DeleteMapping(path = "/utilisateur/{id}")
 	public @ResponseBody void deleteUtilisateur(@PathVariable Long id) {
 		utilisateurService.delete(id);
 	}
-	
+
 	@PostMapping(path = "/utilisateurs")
-	public ResponseEntity<?> createUtilisateur(@RequestBody Utilisateur user) throws Exception{
+	public ResponseEntity<?> createUtilisateur(@RequestBody Utilisateur user) throws Exception {
 		Utilisateur newUser = utilisateurService.addUtilisateur(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
-	
-	@PutMapping(path="/utilisateurs")
-	public ResponseEntity<?> updateUtilisateur(@RequestBody Utilisateur user) throws Exception{
+
+	@PutMapping(path = "/utilisateurs")
+	public ResponseEntity<?> updateUtilisateur(@RequestBody Utilisateur user) throws Exception {
 		Utilisateur updatedUser = utilisateurService.editUtilisateur(user);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedUser);
 	}
