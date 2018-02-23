@@ -4,6 +4,10 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.type.TimestampType;
+
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,8 +45,8 @@ public class Affaire {
 	private Long id_affaire;
     
 	private String nom_affaire;
-	private String date_creation;
-	private String date_cloture;
+	private Timestamp date_creation;
+	private Timestamp date_cloture;
 	private boolean classee=false;
 	private String pieces_conviction;
 	//private List<Suspect> suspectsList;
@@ -104,18 +108,23 @@ public class Affaire {
 		this.nom_affaire = nom_affaire;
 	}
 
-	public String getDate_creation() {
+	
+	public Timestamp getDate_creation() {
 		return date_creation;
 	}
-	public void setDate_creation(String date_creation) {
+
+	public void setDate_creation(Timestamp date_creation) {
 		this.date_creation = date_creation;
 	}
-	public String getDate_cloture() {
+
+	public Timestamp getDate_cloture() {
 		return date_cloture;
 	}
-	public void setDate_cloture(String date_cloture) {
+
+	public void setDate_cloture(Timestamp date_cloture) {
 		this.date_cloture = date_cloture;
 	}
+
 	public String getPieces_conviction() {
 		return pieces_conviction;
 	}
