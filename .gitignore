@@ -1,8 +1,18 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-
 # Compiled class file
 *.class
+
+# Eclipse project files
+.classpath
+.project
+
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
