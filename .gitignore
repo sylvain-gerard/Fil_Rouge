@@ -1,8 +1,8 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-
 # Compiled class file
 *.class
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
