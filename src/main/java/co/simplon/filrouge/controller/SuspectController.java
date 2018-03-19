@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,13 +56,13 @@ public class SuspectController {
 	}
 
 	@PostMapping(path = "/suspects")
-	public ResponseEntity<Suspect> createSuspect(@RequestBody Suspect suspect) throws Exception {
+	public ResponseEntity<Suspect> createSuspect(@Valid @RequestBody Suspect suspect) throws Exception {
 		Suspect newSuspect = suspectService.addSuspect(suspect);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newSuspect);
 	}
 
 	@PutMapping(path = "/suspect/{id}")
-	public ResponseEntity<Suspect> updateSuspect(@PathVariable Long id, @RequestBody Suspect suspect) throws Exception {
+	public ResponseEntity<Suspect> updateSuspect(@PathVariable Long id,@Valid @RequestBody Suspect suspect) throws Exception {
 		Suspect suspectToEdit = suspectService.getSuspect(id);
 		if(suspect==null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
