@@ -27,7 +27,7 @@ public class AffaireService {
 		return affaireRepository.save(affaire);
 	}
 
-	public Affaire editAffaire(Affaire affaire) throws Exception {
+	public Affaire editAffaire(Long id, Affaire affaire) throws Exception {
 		return affaireRepository.save(affaire);
 	}
 
