@@ -31,24 +31,63 @@ public class SuspectController {
 	}
 
 	@GetMapping(path = "/suspect/{id}")
-	public @ResponseBody Suspect getSuspect(@PathVariable Long id) throws Exception {
-		return suspectService.getSuspect(id);
+	public ResponseEntity<Suspect> getSuspect(@PathVariable Long id) throws Exception {
+		Suspect suspect = suspectService.getSuspect(id);
+		if(suspect==null){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.OK).body(suspect);
+		}
 	}
 
 	@DeleteMapping(path = "/suspect/{id}")
-	public @ResponseBody void deleteSuspect(@PathVariable Long id) throws Exception {
-		suspectService.deleteSuspect(id);
+	public ResponseEntity<Suspect> deleteSuspect(@PathVariable Long id) throws Exception {
+		Suspect suspect = suspectService.getSuspect(id);
+		if(suspect==null){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		else {
+			suspectService.deleteSuspect(id);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
 	}
 
 	@PostMapping(path = "/suspects")
-	public ResponseEntity<?> createSuspect(@RequestBody Suspect suspect) throws Exception {
+	public ResponseEntity<Suspect> createSuspect(@RequestBody Suspect suspect) throws Exception {
 		Suspect newSuspect = suspectService.addSuspect(suspect);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newSuspect);
 	}
 
-	@PutMapping(path = "/suspects")
-	public ResponseEntity<?> updateSuspect(@RequestBody Suspect suspect) throws Exception {
-		Suspect updatedSuspect = suspectService.editSuspect(suspect);
+	@PutMapping(path = "/suspect/{id}")
+	public ResponseEntity<Suspect> updateSuspect(@PathVariable Long id, @RequestBody Suspect suspect) throws Exception {
+		Suspect suspectToEdit = suspectService.getSuspect(id);
+		if(suspect==null){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		if(suspect.getNom()!=null)
+			suspectToEdit.setNom(suspect.getNom());
+		if(suspect.getPrenom()!=null)
+			suspectToEdit.setPrenom(suspect.getPrenom());
+		if(suspect.getAdn()!=null)
+			suspectToEdit.setAdn(suspect.getAdn());
+		if(suspect.getAdresse()!=null)
+			suspectToEdit.setAdresse(suspect.getAdresse());
+		if(suspect.getDate_naissance()!=null)
+			suspectToEdit.setDate_naissance(suspect.getDate_naissance());
+		if(suspect.getInfos_suspect()!=null)
+			suspectToEdit.setInfos_suspect(suspect.getInfos_suspect());
+		if(suspect.getPhoto()!=null)
+			suspectToEdit.setPhoto(suspect.getPhoto());
+		if(suspect.getSexe()!=null)
+			suspectToEdit.setSexe(suspect.getSexe());
+		if(suspect.getSignes_particuliers()!=null)
+			suspectToEdit.setSignes_particuliers(suspect.getSignes_particuliers());
+		if(suspect.getAffaire()!=null)
+			suspectToEdit.setAffaire(suspect.getAffaire());
+				
+		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
 	}
 }
