@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.model.Arme;
-import co.simplon.filrouge.repository.ArmeRepository;
 import co.simplon.filrouge.service.ArmeService;
 
 @RestController
@@ -27,9 +26,6 @@ public class ArmeController {
 	@Autowired
 	private ArmeService armeService;
 
-	@Autowired
-	private ArmeRepository armeRepository;
-
 	@GetMapping(path = "/armes")
 	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception {
 		return armeService.getAllArmes();
@@ -38,8 +34,8 @@ public class ArmeController {
 	@GetMapping(path = "/arme/{id}")
 	// public @ResponseBody Arme getArme(@PathVariable Long id) throws Exception {
 	// return armeService.getArme(id);
-	ResponseEntity<Arme> getAffaire(@PathVariable(value = "id") long id) {
-		Arme arme = armeRepository.findOne(id);
+	ResponseEntity<Arme> getAffaire(@PathVariable(value = "id") long id) throws Exception {
+		Arme arme = armeService.getArme(id);
 		if (arme == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -50,12 +46,12 @@ public class ArmeController {
 	// public @ResponseBody void deleteArme(@PathVariable Long id) {
 	// armeService.delete(id);
 	// }
-	ResponseEntity<Arme> deleteArme(@PathVariable(value = "id") long id) {
-		Arme arme = armeRepository.findOne(id);
+	ResponseEntity<Arme> deleteArme(@PathVariable(value = "id") long id) throws Exception {
+		Arme arme = armeService.getArme(id);
 		if (arme == null)
 			return ResponseEntity.notFound().build();
 
-		armeRepository.delete(arme);
+		armeService.deleteArme(id);
 		return ResponseEntity.ok().build();
 	}
 
@@ -65,8 +61,8 @@ public class ArmeController {
 	// Arme newArme = armeService.addArme(arme);
 	// return ResponseEntity.status(HttpStatus.CREATED).body(newArme);
 	// }
-	Arme addArme(@Valid @RequestBody Arme arme) {
-		return armeRepository.save(arme);
+	Arme addArme(@Valid @RequestBody Arme arme) throws Exception {
+		return armeService.addArme(arme);
 	}
 
 	@PutMapping(path = "/armes/{id}")
@@ -75,32 +71,35 @@ public class ArmeController {
 	// Arme updateArme = armeService.addArme(arme);
 	// return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateArme);
 	// }
-	ResponseEntity<Arme> updateArme(@PathVariable(value = "id") long id, @Valid @RequestBody Arme arme) {
-		Arme armeToUpdate = armeRepository.findOne(id);
-		if (armeToUpdate == null)
+	ResponseEntity<Arme> updateArme(@PathVariable(value = "id") long id, @Valid @RequestBody Arme arme) throws Exception {
+		Arme armeAModifier = armeService.getArme(id);
+		if (armeAModifier == null)
 			return ResponseEntity.notFound().build();
 
+		// Mise à jour des attributs obligatoires
+		armeAModifier.setId(arme.getId());
+		
 		// Mise à jour des attributs non null
 		if (arme.getType() != null)
-			armeToUpdate.setType(arme.getType());
+			armeAModifier.setType(arme.getType());
 
 		if (arme.getMarque() != null)
-			armeToUpdate.setMarque(arme.getMarque());
+			armeAModifier.setMarque(arme.getMarque());
 		
 		if (arme.getModele() != null)
-			armeToUpdate.setModele(arme.getModele());
+			armeAModifier.setModele(arme.getModele());
 
 		if (arme.getInfos_complementaire() != null)
-			armeToUpdate.setInfos_complementaire(arme.getInfos_complementaire());
+			armeAModifier.setInfos_complementaire(arme.getInfos_complementaire());
 
 		if (arme.getCalibre() != null)
-			armeToUpdate.setCalibre(arme.getCalibre());
+			armeAModifier.setCalibre(arme.getCalibre());
 
 		if (arme.getNumero_serie() != null)
-			armeToUpdate.setNumero_serie(arme.getNumero_serie());
+			armeAModifier.setNumero_serie(arme.getNumero_serie());
 
-		Arme updatedArme = armeRepository.save(armeToUpdate);
-		return ResponseEntity.ok(updatedArme);
+		Arme armeModifiee = armeService.editArme(armeAModifier);
+		return ResponseEntity.ok(armeModifiee);
 	}
 
 }

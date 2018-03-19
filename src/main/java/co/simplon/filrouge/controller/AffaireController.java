@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.model.Affaire;
-import co.simplon.filrouge.repository.AffaireRepository;
 import co.simplon.filrouge.service.AffaireService;
 
 @RestController
@@ -24,8 +23,6 @@ import co.simplon.filrouge.service.AffaireService;
 @CrossOrigin(origins = "*")
 public class AffaireController {
 
-	@Autowired
-	private AffaireRepository affaireRepository;
 	@Autowired
 	private AffaireService affaireService;
 
@@ -39,8 +36,8 @@ public class AffaireController {
 	// Exception {
 	// return affaireService.getAffaire(id);
 
-	ResponseEntity<Affaire> getAffaire(@PathVariable(value = "id") long id) {
-		Affaire affaire = affaireRepository.findOne(id);
+	ResponseEntity<Affaire> getAffaire(@PathVariable(value = "id") long id) throws Exception {
+		Affaire affaire = affaireService.getAffaire(id);
 		if (affaire == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -51,12 +48,12 @@ public class AffaireController {
 	@DeleteMapping(path = "/affaire/{id}")
 	// public @ResponseBody void deleteAffaire(@PathVariable Long id) {
 	// affaireService.delete(id);
-	ResponseEntity<Affaire> deleteAffaire(@PathVariable(value = "id") long id) {
-		Affaire affaire = affaireRepository.findOne(id);
+	ResponseEntity<Affaire> deleteAffaire(@PathVariable(value = "id") long id) throws Exception {
+		Affaire affaire = affaireService.getAffaire(id);
 		if (affaire == null)
 			return ResponseEntity.notFound().build();
 
-		affaireRepository.delete(affaire);
+		affaireService.deleteAffaire(id);
 		return ResponseEntity.ok().build();
 	}
 	// }
@@ -66,8 +63,8 @@ public class AffaireController {
 	// Exception {
 	// Affaire newAffaire = affaireService.addAffaire(affaire);
 	// return ResponseEntity.status(HttpStatus.CREATED).body(newAffaire);
-	Affaire addAffaire(@Valid @RequestBody Affaire affaire) {
-		return affaireRepository.save(affaire);
+	Affaire addAffaire(@Valid @RequestBody Affaire affaire) throws Exception {
+		return affaireService.addAffaire(affaire);
 	}
 
 	@PutMapping(path = "/affaire/{id}")
@@ -76,12 +73,13 @@ public class AffaireController {
 	// Affaire updateAffaire = affaireService.addAffaire(affaire);
 	// return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateAffaire);
 	// }
-	ResponseEntity<Affaire> updateAffaire(@PathVariable(value = "id") long id, @Valid @RequestBody Affaire affaire) {
-		Affaire affaireAModifier = affaireRepository.findOne(id);
+	ResponseEntity<Affaire> updateAffaire(@PathVariable(value = "id") long id, @Valid @RequestBody Affaire affaire) throws Exception {
+		Affaire affaireAModifier = affaireService.getAffaire(id);
 		if (affaireAModifier == null)
 			return ResponseEntity.notFound().build();
 
 		// Mise à jour des attributs obligatoires
+		affaireAModifier.setId_affaire(affaire.getId_affaire());
 		affaireAModifier.setNom_affaire(affaire.getNom_affaire());
 		affaireAModifier.setDate_creation(affaire.getDate_creation());
 
@@ -101,7 +99,7 @@ public class AffaireController {
 		if (affaire.getSuspect() != null)
 			affaireAModifier.setSuspect(affaire.getSuspect());
 
-		Affaire affaireModifiee = affaireRepository.save(affaireAModifier);
+		Affaire affaireModifiee = affaireService.editAffaire(id, affaireAModifier);
 		return ResponseEntity.ok(affaireModifiee);
 	}
 }

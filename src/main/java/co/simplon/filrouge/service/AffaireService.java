@@ -19,7 +19,7 @@ public class AffaireService {
 		return affaireRepository.findOne(id);
 	}
 
-	public void delete(Long id) {
+	public void deleteAffaire(Long id) {
 		affaireRepository.delete(id);
 	}
 

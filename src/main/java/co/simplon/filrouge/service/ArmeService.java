@@ -19,7 +19,7 @@ public class ArmeService {
 		return armeRepository.findOne(id);
 	}
 
-	public void delete(Long id) {
+	public void deleteArme(Long id) {
 		armeRepository.delete(id);
 	}
 
