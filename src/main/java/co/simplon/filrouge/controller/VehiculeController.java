@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +33,12 @@ public class VehiculeController {
 	}
 
 	@GetMapping(path = "/vehicule/{id}")
-	public @ResponseBody Vehicule getVehicule(@PathVariable Long id) throws Exception {
+	public @ResponseBody Vehicule getVehicule(@PathVariable long id) throws Exception {
 		return vehiculeService.getVehicule(id);
 	}
 
 	@DeleteMapping(path = "/vehicule/{id}")
-	public @ResponseBody void deleteVehicule(@PathVariable Long id) {
+	public @ResponseBody void deleteVehicule(@PathVariable long id) {
 		vehiculeService.delete(id);
 	}
 
@@ -46,10 +48,36 @@ public class VehiculeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(newVehicule);
 	}
 
-	@PutMapping(path = "/vehicules")
-	public ResponseEntity<?> updateVehicule(@RequestBody Vehicule vehicule) throws Exception {
-		Vehicule updateVehicule = vehiculeService.addVehicule(vehicule);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateVehicule);
+	@PutMapping(path = "/vehicule/{id}")
+	ResponseEntity<Vehicule> updateVehicule(@PathVariable(value = "id") long id, @Valid @RequestBody Vehicule vehicule) throws Exception {
+		Vehicule vehiculeAModifier = vehiculeService.getVehicule(id);
+		if (vehiculeAModifier == null)
+			return ResponseEntity.notFound().build();
+
+		// Mise à jour des attributs obligatoires
+		vehiculeAModifier.setId(vehicule.getId());
+		
+		// Mise à jour des attributs non null
+		if (vehicule.getType() != null)
+			vehiculeAModifier.setType(vehicule.getType());
+
+		if (vehicule.getMarque() != null)
+			vehiculeAModifier.setMarque(vehicule.getMarque());
+		
+		if (vehicule.getModele() != null)
+			vehiculeAModifier.setModele(vehicule.getModele());
+
+		if (vehicule.getInfos_complementaire() != null)
+			vehiculeAModifier.setInfos_complementaire(vehicule.getInfos_complementaire());
+
+		if (vehicule.getImmatriculation() != null)
+			vehiculeAModifier.setImmatriculation(vehicule.getImmatriculation());
+
+		if (vehicule.getCouleur_vehicule() != null)
+			vehiculeAModifier.setCouleur_vehicule(vehicule.getCouleur_vehicule());
+
+		Vehicule vehiculeModifiee = vehiculeService.editVehicule(id, vehiculeAModifier);
+		return ResponseEntity.ok(vehiculeModifiee);
 	}
 
 }

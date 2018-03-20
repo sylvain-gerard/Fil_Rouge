@@ -28,7 +28,7 @@ public class VehiculeService {
 		return vehiculeRepository.save(vehicule);
 	}
 
-	public Vehicule editVehicule(Vehicule vehicule) throws Exception {
+	public Vehicule editVehicule(Long id, Vehicule vehicule) throws Exception {
 		return vehiculeRepository.save(vehicule);
 	}
 

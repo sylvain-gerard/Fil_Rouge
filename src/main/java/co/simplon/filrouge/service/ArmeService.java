@@ -27,7 +27,7 @@ public class ArmeService {
 		return armeRepository.save(arme);
 	}
 
-	public Arme editArme(Arme arme) throws Exception {
+	public Arme editArme(Long id, Arme arme) throws Exception {
 		return armeRepository.save(arme);
 	}
 

@@ -65,7 +65,7 @@ public class ArmeController {
 		return armeService.addArme(arme);
 	}
 
-	@PutMapping(path = "/armes/{id}")
+	@PutMapping(path = "/arme/{id}")
 	// public ResponseEntity<?> updateArme(@RequestBody Arme arme) throws Exception
 	// {
 	// Arme updateArme = armeService.addArme(arme);
@@ -98,7 +98,7 @@ public class ArmeController {
 		if (arme.getNumero_serie() != null)
 			armeAModifier.setNumero_serie(arme.getNumero_serie());
 
-		Arme armeModifiee = armeService.editArme(armeAModifier);
+		Arme armeModifiee = armeService.editArme(id, armeAModifier);
 		return ResponseEntity.ok(armeModifiee);
 	}
 
