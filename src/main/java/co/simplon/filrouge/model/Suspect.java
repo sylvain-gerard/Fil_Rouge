@@ -63,14 +63,6 @@ public class Suspect extends Humain {
 		this.poids = poids;
 	}
 
-	public Set<Affaire> getAffaire() {
-		return affaire;
-	}
-
-	public void setAffaire(Set<Affaire> affaire) {
-		this.affaire = affaire;
-	}
-
 	public String getSignes_particuliers() {
 		return signes_particuliers;
 	}
