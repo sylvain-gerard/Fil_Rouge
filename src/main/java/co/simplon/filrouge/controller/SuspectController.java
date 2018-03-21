@@ -86,8 +86,6 @@ public class SuspectController {
 			suspectToEdit.setSexe(suspect.getSexe());
 		if(suspect.getSignes_particuliers()!=null)
 			suspectToEdit.setSignes_particuliers(suspect.getSignes_particuliers());
-		if(suspect.getAffaire()!=null)
-			suspectToEdit.setAffaire(suspect.getAffaire());
 				
 		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
