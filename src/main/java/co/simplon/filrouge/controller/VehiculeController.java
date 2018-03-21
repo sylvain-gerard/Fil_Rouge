@@ -44,7 +44,7 @@ public class VehiculeController {
 	}
 
 	/* Exemple requête SQL :
-	 * DELETE FROM filrouge.vehicule WHERE id = 1;
+	 * DELETE FROM vehicule WHERE id = 1;
 	 */
 	@DeleteMapping(path = "/vehicule/{id}")
 	public @ResponseBody void deleteVehicule(@PathVariable long id) {
