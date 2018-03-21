@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.repository.SuspectRepository;
-
+/**
+ * 
+ * @author Sylvain
+ *
+ */
 @Service
 public class SuspectService {
 

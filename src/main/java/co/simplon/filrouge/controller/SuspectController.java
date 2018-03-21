@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.service.SuspectService;
-
+/**
+ * 
+ * @author Sylvain
+ *
+ */
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
