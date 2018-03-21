@@ -27,27 +27,44 @@ public class VehiculeController {
 	@Autowired
 	private VehiculeService vehiculeService;
 
+	/* Exemple requête SQL :
+	 * SELECT * FROM filrouge.vehicule; 
+	 */
 	@GetMapping(path = "/vehicules")
 	public @ResponseBody Iterable<Vehicule> getAllVehicules() throws Exception {
 		return vehiculeService.getAllVehicules();
 	}
 
+	/* Exemple requête SQL :
+	 * SELECT * FROM filrouge.vehicule WHERE id = 1;
+	 */
 	@GetMapping(path = "/vehicule/{id}")
 	public @ResponseBody Vehicule getVehicule(@PathVariable long id) throws Exception {
 		return vehiculeService.getVehicule(id);
 	}
 
+	/* Exemple requête SQL :
+	 * DELETE FROM vehicule WHERE id = 1;
+	 */
 	@DeleteMapping(path = "/vehicule/{id}")
 	public @ResponseBody void deleteVehicule(@PathVariable long id) {
 		vehiculeService.delete(id);
 	}
 
+	/* exemple requête SQL :
+	 * INSERT INTO vehicule (`infos_complementaire`,`marque`,`modele`,`type`,
+	 * `couleur_vehicule`,`immatriculation`) VALUES ("Voiture bélier","Peugeot","306","cc","Rouge Lucifer",
+	 * "115AKA75");
+	 */
 	@PostMapping(path = "/vehicules")
 	public ResponseEntity<?> createVehicule(@RequestBody Vehicule vehicule) throws Exception {
 		Vehicule newVehicule = vehiculeService.addVehicule(vehicule);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newVehicule);
 	}
 
+	/* exemple requête SQL :
+	 * UPDATE vehicule SET `marque` = "Peugeot",`modele` = "306" WHERE `id` = 19;
+	 */
 	@PutMapping(path = "/vehicule/{id}")
 	ResponseEntity<Vehicule> updateVehicule(@PathVariable(value = "id") long id, @Valid @RequestBody Vehicule vehicule) throws Exception {
 		Vehicule vehiculeAModifier = vehiculeService.getVehicule(id);
