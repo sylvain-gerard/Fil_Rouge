@@ -26,15 +26,15 @@ public class SuspectController {
 
 	@Autowired
 	private SuspectService suspectService;
-
+	
 	@GetMapping(path = "/suspects")
 	public @ResponseBody Iterable<Suspect> getAllSuspects() throws Exception {
-		return suspectService.getAllSuspects();
+		return suspectService.getAllSuspects(); //SELECT * FROM suspect;
 	}
 
 	@GetMapping(path = "/suspect/{id}")
 	public ResponseEntity<Suspect> getSuspect(@PathVariable Long id) throws Exception {
-		Suspect suspect = suspectService.getSuspect(id);
+		Suspect suspect = suspectService.getSuspect(id); //SELECT `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `photo`, `poids`, `sexe`, `signes_particuliers`, `taille` FROM suspect WHERE `id`=id;
 		if(suspect==null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -45,7 +45,7 @@ public class SuspectController {
 
 	@DeleteMapping(path = "/suspect/{id}")
 	public ResponseEntity<Suspect> deleteSuspect(@PathVariable Long id) throws Exception {
-		Suspect suspect = suspectService.getSuspect(id);
+		Suspect suspect = suspectService.getSuspect(id);//DELETE FROM suspect WHERE `id`=id;
 		if(suspect==null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -57,13 +57,13 @@ public class SuspectController {
 
 	@PostMapping(path = "/suspects")
 	public ResponseEntity<Suspect> createSuspect(@Valid @RequestBody Suspect suspect) throws Exception {
-		Suspect newSuspect = suspectService.addSuspect(suspect);
+		Suspect newSuspect = suspectService.addSuspect(suspect);//INSERT INTO `suspect` (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `photo`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES (?,?,?,?,?,?,?,?,?,?,?);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newSuspect);
 	}
-
+	
 	@PutMapping(path = "/suspect/{id}")
 	public ResponseEntity<Suspect> updateSuspect(@PathVariable Long id,@Valid @RequestBody Suspect suspect) throws Exception {
-		Suspect suspectToEdit = suspectService.getSuspect(id);
+		Suspect suspectToEdit = suspectService.getSuspect(id); //SELECT `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `photo`, `poids`, `sexe`, `signes_particuliers`, `taille` FROM suspect WHERE `id`=id;
 		if(suspect==null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -87,7 +87,7 @@ public class SuspectController {
 		if(suspect.getSignes_particuliers()!=null)
 			suspectToEdit.setSignes_particuliers(suspect.getSignes_particuliers());
 				
-		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);
+		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);//INSERT INTO `suspect` (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `photo`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES (?,?,?,?,?,?,?,?,?,?,?);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
 	}
 }
