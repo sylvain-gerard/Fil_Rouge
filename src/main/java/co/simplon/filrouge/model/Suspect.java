@@ -27,6 +27,15 @@ public class Suspect extends Humain {
 	private String sexe;
 	private String infos_suspect;
 	private String photo;
+	private String matricule;
+
+	public String getMatricule() {
+		return matricule;
+	}
+
+	public void setMatricule(String matricule) {
+		this.matricule = matricule;
+	}
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "suspect")
 	private Set<Affaire> affaire = new HashSet<>();
