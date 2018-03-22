@@ -26,7 +26,6 @@ public class Suspect extends Humain {
 	private String adn;
 	private String sexe;
 	private String infos_suspect;
-	private String photo;
 	private String matricule;
 
 	public String getMatricule() {
@@ -94,14 +93,6 @@ public class Suspect extends Humain {
 
 	public String getSexe() {
 		return sexe;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
 	}
 
 	public void setSexe(String sexe) {
