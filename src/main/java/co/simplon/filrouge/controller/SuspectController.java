@@ -89,7 +89,7 @@ public class SuspectController {
 		if(suspect.getSignes_particuliers()!=null)
 			suspectToEdit.setSignes_particuliers(suspect.getSignes_particuliers());
 				
-		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);//INSERT INTO `suspect` (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `photo`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES (?,?,?,?,?,?,?,?,?,?,?);
+		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);//INSERT INTO `suspect` (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES (?,?,?,?,?,?,?,?,?,?);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
 	}
 }
