@@ -84,8 +84,6 @@ public class SuspectController {
 			suspectToEdit.setDate_naissance(suspect.getDate_naissance());
 		if(suspect.getInfos_suspect()!=null)
 			suspectToEdit.setInfos_suspect(suspect.getInfos_suspect());
-		if(suspect.getPhoto()!=null)
-			suspectToEdit.setPhoto(suspect.getPhoto());
 		if(suspect.getSexe()!=null)
 			suspectToEdit.setSexe(suspect.getSexe());
 		if(suspect.getSignes_particuliers()!=null)
