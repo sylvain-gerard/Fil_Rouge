@@ -26,25 +26,25 @@ public class AffaireDAO {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private Environment env;
+	private DataSource dataSource;
 	
-	@Bean 
-	public DataSource dataSource() {
-		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl(env.getProperty("spring.datasource.url"));
-		dataSource.setUsername("admin");
-		dataSource.setPassword("admin");
-		return dataSource;
-	}
+//	@Bean 
+//	public DataSource dataSource() {
+//		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//		dataSource.setUrl(env.getProperty("spring.datasource.url"));
+//		dataSource.setUsername("admin");
+//		dataSource.setPassword("admin");
+//		return dataSource;
+//	}
 	
 
-//	@Autowired
-//	public AffaireDAO(JdbcTemplate jdbcTemplate) {
-//		this.dataSource = jdbcTemplate.getDataSource();
-//	}
+	@Autowired
+	public AffaireDAO(JdbcTemplate jdbcTemplate) {
+		this.dataSource = jdbcTemplate.getDataSource();
+	}
 
 	public List<Arme> recupererArmesDeAffaire(Long id) throws Exception {
-
 		Arme arme;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -53,14 +53,15 @@ public class AffaireDAO {
 
 		try {
 			// Requete SQL
-			sql = " SELECT *\r\n" + 
-					"  FROM arme\r\n" + 
-					"LEFT JOIN affaire_arme\r\n" + 
-					"  ON arme.id = affaire_arme.id_arme\r\n" + 
-					"RIGHT JOIN affaire\r\n" + 
-					"  ON affaire_arme.id_affaire = affaire.id_affaire\r\n" + 
-					"  WHERE affaire.id_affaire !affaire_arme= ?;";
-			pstmt = dataSource().getConnection().prepareStatement(sql);
+			sql = " SELECT arme.*\r\n" + 
+			"  FROM arme\r\n" + 
+			"INNER JOIN affaire_arme\r\n" + 
+			"  ON arme.id = affaire_arme.id_arme\r\n" + 
+			"INNER JOIN affaire\r\n" + 
+			"  ON affaire_arme.id_affaire = affaire.id_affaire\r\n" + 
+			"  WHERE affaire.id_affaire = ?;";
+		
+			pstmt = dataSource.getConnection().prepareStatement(sql);
 			pstmt.setLong(1, id);
 			// Log info
 			logSQL(pstmt);

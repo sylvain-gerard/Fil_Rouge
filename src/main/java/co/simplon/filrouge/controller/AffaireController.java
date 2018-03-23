@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,7 @@ public class AffaireController {
 
 	@Autowired
 	private AffaireService affaireService;
+	@Autowired
 	private AffaireDAO affaireDAO;
 
 	@GetMapping(path = "/affaires")
@@ -94,13 +96,24 @@ public class AffaireController {
 	}
 	
 	@GetMapping(path = "/affaire/{id}/armes")
-	public ResponseEntity<List<Arme>> recupererArmesDeAffaire(@PathVariable(value = "id") long id) throws Exception {
+	public ResponseEntity<?> recupererArmesDeAffaire(@PathVariable(value = "id") long id) throws Exception {
+		List<Arme> armes = 	null;
 		Affaire affaire = affaireService.getAffaire(id);
-		List<Arme> armes = affaireDAO.recupererArmesDeAffaire(id);
+		//armes = affaireDAO.recupererArmesDeAffaire(id);
+		//System.out.println(armes);
+		try {
+		armes = affaireDAO.recupererArmesDeAffaire(id);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			
+		}
 		if (affaire == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok().body(armes);
+//		return (ResponseEntity<Arme>) armes;
+		return ResponseEntity.status(HttpStatus.OK).body(armes);
+
 
 	}
 }
