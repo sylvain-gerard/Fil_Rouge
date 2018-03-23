@@ -11,23 +11,23 @@ public class ArmeService {
 	@Autowired
 	private ArmeRepository armeRepository;
 
-	public Iterable<Arme> getAllArmes() throws Exception {
+	public Iterable<Arme> recupererToutesLesArmes() throws Exception {
 		return armeRepository.findAll();
 	}
 
-	public Arme getArme(Long id) throws Exception {
+	public Arme recupererArme(Long id) throws Exception {
 		return armeRepository.findOne(id);
 	}
 
-	public void deleteArme(Long id) {
+	public void supprimerArme(Long id) {
 		armeRepository.delete(id);
 	}
 
-	public Arme addArme(Arme arme) throws Exception {
+	public Arme ajouterArme(Arme arme) throws Exception {
 		return armeRepository.save(arme);
 	}
 
-	public Arme editArme(Long id, Arme arme) throws Exception {
+	public Arme miseAJourArme(Long id, Arme arme) throws Exception {
 		return armeRepository.save(arme);
 	}
 

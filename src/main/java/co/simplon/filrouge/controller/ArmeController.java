@@ -26,66 +26,63 @@ public class ArmeController {
 	@Autowired
 	private ArmeService armeService;
 
+	// exemple en SQL :
+	// SELECT * FROM arme;
 	@GetMapping(path = "/armes")
 	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception {
-		return armeService.getAllArmes();
+		return armeService.recupererToutesLesArmes();
 	}
 
+	// exemple en SQL :
+	// SELECT * FROM arme WHERE id=3;
 	@GetMapping(path = "/arme/{id}")
-	// public @ResponseBody Arme getArme(@PathVariable Long id) throws Exception {
-	// return armeService.getArme(id);
-	ResponseEntity<Arme> getAffaire(@PathVariable(value = "id") long id) throws Exception {
-		Arme arme = armeService.getArme(id);
+	ResponseEntity<Arme> recupererArme(@PathVariable(value = "id") long id) throws Exception {
+		Arme arme = armeService.recupererArme(id);
 		if (arme == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok().body(arme);
 	}
 
+	// exemple en SQL :
+	// DELETE FROM arme WHERE id=3;
 	@DeleteMapping(path = "/arme/{id}")
-	// public @ResponseBody void deleteArme(@PathVariable Long id) {
-	// armeService.delete(id);
-	// }
-	ResponseEntity<Arme> deleteArme(@PathVariable(value = "id") long id) throws Exception {
-		Arme arme = armeService.getArme(id);
+	ResponseEntity<Arme> supprimerArme(@PathVariable(value = "id") long id) throws Exception {
+		Arme arme = armeService.recupererArme(id);
 		if (arme == null)
 			return ResponseEntity.notFound().build();
 
-		armeService.deleteArme(id);
+		armeService.supprimerArme(id);
 		return ResponseEntity.ok().build();
 	}
 
+	// exemple en SQL :
+	// INSERT INTO arme (`marque`, `modele`, `type`, `calibre`, `numero_serie`,
+	// `infos_complementaire`) VALUES ('Berretta', '93', 'Pistolet', '9mm', '1235TYU678', '');
 	@PostMapping(path = "/armes")
-	// public ResponseEntity<?> createArme(@RequestBody Arme arme) throws Exception
-	// {
-	// Arme newArme = armeService.addArme(arme);
-	// return ResponseEntity.status(HttpStatus.CREATED).body(newArme);
-	// }
-	Arme addArme(@Valid @RequestBody Arme arme) throws Exception {
-		return armeService.addArme(arme);
+	Arme ajouterArme(@Valid @RequestBody Arme arme) throws Exception {
+		return armeService.ajouterArme(arme);
 	}
 
+	// exemple en SQL :
+	// UPDATE arme SET `marque` = "Berretta", `modele` = "92S" WHERE id = 3;
 	@PutMapping(path = "/arme/{id}")
-	// public ResponseEntity<?> updateArme(@RequestBody Arme arme) throws Exception
-	// {
-	// Arme updateArme = armeService.addArme(arme);
-	// return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateArme);
-	// }
-	ResponseEntity<Arme> updateArme(@PathVariable(value = "id") long id, @Valid @RequestBody Arme arme) throws Exception {
-		Arme armeAModifier = armeService.getArme(id);
+	ResponseEntity<Arme> miseAJourArme(@PathVariable(value = "id") long id, @Valid @RequestBody Arme arme)
+			throws Exception {
+		Arme armeAModifier = armeService.recupererArme(id);
 		if (armeAModifier == null)
 			return ResponseEntity.notFound().build();
 
 		// Mise à jour des attributs obligatoires
 		armeAModifier.setId(arme.getId());
-		
+
 		// Mise à jour des attributs non null
 		if (arme.getType() != null)
 			armeAModifier.setType(arme.getType());
 
 		if (arme.getMarque() != null)
 			armeAModifier.setMarque(arme.getMarque());
-		
+
 		if (arme.getModele() != null)
 			armeAModifier.setModele(arme.getModele());
 
@@ -98,7 +95,7 @@ public class ArmeController {
 		if (arme.getNumero_serie() != null)
 			armeAModifier.setNumero_serie(arme.getNumero_serie());
 
-		Arme armeModifiee = armeService.editArme(id, armeAModifier);
+		Arme armeModifiee = armeService.miseAJourArme(id, armeAModifier);
 		return ResponseEntity.ok(armeModifiee);
 	}
 

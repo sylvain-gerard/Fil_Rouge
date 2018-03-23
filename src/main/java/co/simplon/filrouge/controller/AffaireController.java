@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.filrouge.dao.AffaireDAO;
 import co.simplon.filrouge.model.Affaire;
+import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.service.AffaireService;
 
 @RestController
@@ -25,6 +29,7 @@ public class AffaireController {
 
 	@Autowired
 	private AffaireService affaireService;
+	private AffaireDAO affaireDAO;
 
 	@GetMapping(path = "/affaires")
 	public @ResponseBody Iterable<Affaire> getAllAffaires() throws Exception {
@@ -32,10 +37,6 @@ public class AffaireController {
 	}
 
 	@GetMapping(path = "/affaire/{id}")
-	// public @ResponseBody Affaire getAffaire(@PathVariable Long id) throws
-	// Exception {
-	// return affaireService.getAffaire(id);
-
 	ResponseEntity<Affaire> getAffaire(@PathVariable(value = "id") long id) throws Exception {
 		Affaire affaire = affaireService.getAffaire(id);
 		if (affaire == null) {
@@ -46,8 +47,6 @@ public class AffaireController {
 	}
 
 	@DeleteMapping(path = "/affaire/{id}")
-	// public @ResponseBody void deleteAffaire(@PathVariable Long id) {
-	// affaireService.delete(id);
 	ResponseEntity<Affaire> deleteAffaire(@PathVariable(value = "id") long id) throws Exception {
 		Affaire affaire = affaireService.getAffaire(id);
 		if (affaire == null)
@@ -59,20 +58,11 @@ public class AffaireController {
 	// }
 
 	@PostMapping(path = "/affaires")
-	// public ResponseEntity<?> createAffaire(@RequestBody Affaire affaire) throws
-	// Exception {
-	// Affaire newAffaire = affaireService.addAffaire(affaire);
-	// return ResponseEntity.status(HttpStatus.CREATED).body(newAffaire);
 	Affaire addAffaire(@Valid @RequestBody Affaire affaire) throws Exception {
 		return affaireService.addAffaire(affaire);
 	}
 
 	@PutMapping(path = "/affaire/{id}")
-	// public ResponseEntity<Affaire> updateAffaire(@PathVariable Long id,
-	// @RequestBody Affaire affaire) throws Exception {
-	// Affaire updateAffaire = affaireService.addAffaire(affaire);
-	// return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateAffaire);
-	// }
 	ResponseEntity<Affaire> updateAffaire(@PathVariable(value = "id") long id, @Valid @RequestBody Affaire affaire) throws Exception {
 		Affaire affaireAModifier = affaireService.getAffaire(id);
 		if (affaireAModifier == null)
@@ -101,5 +91,16 @@ public class AffaireController {
 
 		Affaire affaireModifiee = affaireService.editAffaire(id, affaireAModifier);
 		return ResponseEntity.ok(affaireModifiee);
+	}
+	
+	@GetMapping(path = "/affaire/{id}/armes")
+	public ResponseEntity<List<Arme>> recupererArmesDeAffaire(@PathVariable(value = "id") long id) throws Exception {
+		Affaire affaire = affaireService.getAffaire(id);
+		List<Arme> armes = affaireDAO.recupererArmesDeAffaire(id);
+		if (affaire == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(armes);
+
 	}
 }
