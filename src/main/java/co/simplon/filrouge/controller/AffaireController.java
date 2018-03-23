@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.simplon.filrouge.dao.AffaireDAO;
 import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.Arme;
+import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.service.AffaireService;
 
 @RestController
@@ -114,6 +115,24 @@ public class AffaireController {
 //		return (ResponseEntity<Arme>) armes;
 		return ResponseEntity.status(HttpStatus.OK).body(armes);
 
+		
+	}
+	
+	@GetMapping(path = "/affaire/{id}/suspects")
+	public ResponseEntity<?> recupererSuspectsDeAffaire(@PathVariable(value = "id") long id) throws Exception {
+		List<Suspect> suspects = null;
+		Affaire affaire = affaireService.getAffaire(id);
+		try {
+		suspects = affaireDAO.recupererSuspectsDeAffaire(id);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);			
+		}
+		if (affaire == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(suspects);
 
+		
 	}
 }

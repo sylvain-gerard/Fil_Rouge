@@ -19,6 +19,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.filrouge.model.Arme;
+import co.simplon.filrouge.model.Suspect;
 
 @Repository
 public class AffaireDAO {
@@ -104,6 +105,62 @@ public class AffaireDAO {
 
 		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
 		log.debug(sql);
+	}
+
+	public List<Suspect> recupererSuspectsDeAffaire(long id) throws SQLException {
+		Suspect suspect;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<Suspect> listeSuspect = new ArrayList<Suspect>();
+		
+		try {
+			// Requete SQL
+			sql = " SELECT suspect.*\r\n" + 
+			"  FROM suspect\r\n" + 
+			"INNER JOIN affaire_suspect\r\n" + 
+			"  ON suspect.id = affaire_suspect.id_suspect\r\n" + 
+			"INNER JOIN affaire\r\n" + 
+			"  ON affaire_suspect.id_affaire = affaire.id_affaire\r\n" + 
+			"  WHERE affaire.id_affaire = ?;";
+		
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			rs = pstmt.executeQuery();
+			// resultat requete
+			while (rs.next()) {
+				suspect = recupererSuspectRS(rs);
+				listeSuspect.add(suspect);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+
+		return listeSuspect;
+	}
+	
+	private Suspect recupererSuspectRS(ResultSet rs) throws SQLException {
+		Suspect suspect = new Suspect();
+		suspect.setId(rs.getLong("id"));
+		suspect.setNom(rs.getString("nom"));
+		suspect.setPrenom(rs.getString("prenom"));
+		//suspect.setMatricule(rs.getString("matricule"));
+		suspect.setAdresse(rs.getString("adresse"));
+		suspect.setDate_naissance(rs.getDate("date_naissance"));
+		suspect.setTaille(rs.getDouble("taille"));
+		suspect.setAdn(rs.getString("adn"));
+		suspect.setPoids(rs.getDouble("poids"));
+		suspect.setSexe(rs.getString("sexe"));
+		suspect.setSignes_particuliers(rs.getString("signes_particuliers"));
+
+		return suspect;
 	}
 
 }
