@@ -22,6 +22,7 @@ import co.simplon.filrouge.dao.AffaireDAO;
 import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.model.Suspect;
+import co.simplon.filrouge.model.Vehicule;
 import co.simplon.filrouge.service.AffaireService;
 
 @RestController
@@ -134,5 +135,22 @@ public class AffaireController {
 		return ResponseEntity.status(HttpStatus.OK).body(suspects);
 
 		
+	}
+	
+	@GetMapping(path = "/affaire/{id}/vehicules")
+	public ResponseEntity<?> recupererVehiculesDeAffaire(@PathVariable(value = "id") long id) throws Exception {
+		List<Vehicule> vehicules = null;
+		Affaire affaire = affaireService.getAffaire(id);
+		try {
+		vehicules = affaireDAO.recupererVehiculesDeAffaire(id);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			
+		}
+		if (affaire == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(vehicules);
 	}
 }

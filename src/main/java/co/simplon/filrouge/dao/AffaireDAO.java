@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.model.Suspect;
+import co.simplon.filrouge.model.Vehicule;
 
 @Repository
 public class AffaireDAO {
@@ -163,4 +164,55 @@ public class AffaireDAO {
 		return suspect;
 	}
 
+	public List<Vehicule> recupererVehiculesDeAffaire(Long id) throws Exception {
+		Vehicule vehicule;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<Vehicule> listeVehicule = new ArrayList<Vehicule>();
+
+		try {
+			// Requete SQL
+			sql = " SELECT vehicule.*\r\n" + 
+			"  FROM vehicule\r\n" + 
+			"INNER JOIN affaire_vehicule\r\n" + 
+			"  ON vehicule.id = affaire_vehicule.id_vehicule\r\n" + 
+			"INNER JOIN affaire\r\n" + 
+			"  ON affaire_vehicule.id_affaire = affaire.id_affaire\r\n" + 
+			"  WHERE affaire.id_affaire = ?;";
+		
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			rs = pstmt.executeQuery();
+			// resultat requete
+			while (rs.next()) {
+				vehicule = recupererVehiculeRS(rs);
+				listeVehicule.add(vehicule);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+
+		return listeVehicule;
+	}
+
+	private Vehicule recupererVehiculeRS(ResultSet rs) throws SQLException {
+		Vehicule vehicule = new Vehicule();
+		vehicule.setId(rs.getLong("id"));
+		vehicule.setType(rs.getString("type"));
+		vehicule.setMarque(rs.getString("marque"));
+		vehicule.setModele(rs.getString("modele"));
+		vehicule.setImmatriculation(rs.getString("immatriculation"));
+		vehicule.setCouleur_vehicule(rs.getString("couleur_vehicule"));
+		vehicule.setInfos_complementaire(rs.getString("infos_complementaire"));
+
+		return vehicule;
+		}
 }
