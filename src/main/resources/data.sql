@@ -18,5 +18,16 @@ INSERT IGNORE INTO affaire (`id_affaire`, `classee`, `date_cloture`, `date_creat
 
 INSERT IGNORE INTO suspect (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES ('1', 'Manson', 'Charles', 'ACAAGATGCCATTGT', '2221 Hanover Street', '1934-11-12 00:00:00', 'Condamné à mort le 25 janvier 1971', '70', 'M', 'Un des criminels les plus connus de l’histoire', '170');
 INSERT IGNORE INTO suspect (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES ('2', 'Capone', 'Al', 'CTCCTGCTGCTGCTGCT', '378 Park Avenue', '1899-01-17 00:00:00', 'Un des plus grands gangsters du dernier siècle','65', 'M', 'Surnommé « Scarface »', '159'); 
-INSERT IGNORE INTO suspect (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES ('3', 'Parker', 'Bonnie', 'CAGTGCCGGGCCCCTCATA', '2154 Canis Heights Drive', '1910-10-01 00:00:00', 'Spécialisée dans l\'attaque à main armée de banques.', '55', 'F', 'Femme, Brune.', '168');
+INSERT IGNORE INTO suspect (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES ('3', 'Parker', 'Bonnie', 'CAGTGCCGGGCCCCTCATA', '2154 Canis Heights Drive', '1910-10-01 00:00:00', 'Spécialiste du braquage de banques.', '55', 'F', 'Femme, Brune.', '168');
 
+--------------------------------
+-- DATA LIEES AUX AFFAIRES -----
+--------------------------------
+
+INSERT IGNORE INTO affaire_arme (`id_affaire`, `id_arme`) VALUES ('1', '1');
+INSERT IGNORE INTO affaire_arme (`id_affaire`, `id_arme`) VALUES ('2', '3');
+INSERT IGNORE INTO affaire_arme (`id_affaire`, `id_arme`) VALUES ('2', '2');
+
+INSERT IGNORE INTO affaire_suspect (`id_affaire`, `id_suspect`) VALUES ('1', '2');
+INSERT IGNORE INTO affaire_suspect (`id_affaire`, `id_suspect`) VALUES ('2', '3');
+INSERT IGNORE INTO affaire_suspect (`id_affaire`, `id_suspect`) VALUES ('3', '1');
