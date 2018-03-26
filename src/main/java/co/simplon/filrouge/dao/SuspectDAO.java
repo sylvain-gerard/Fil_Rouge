@@ -29,6 +29,13 @@ public class SuspectDAO {
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
 	
+	/**
+	 * Rechercher les suspects avec un critère de recherche sur tous les champs
+	 * 
+	 * @param filtreSuspect
+	 * @return
+	 * @throws Exception
+	 */
 	public List <Suspect> filtreSuspect(String filtreSuspect) throws Exception{
 		List <Suspect> supectTries = new ArrayList<Suspect>();
 		Suspect suspect;
@@ -109,5 +116,68 @@ public class SuspectDAO {
 		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
 		log.debug(sql);
 	}
+	
+	/**
+	 * Casser le lien d'une affaire et d'un suspect
+	 * 
+	 * @param id_affaire
+	 * @param id_suspect
+	 * @throws Exception
+	 */
+	public void deleteFromAffaire(Long id_affaire, Long id_suspect) throws Exception {
 
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = " DELETE FROM affaire_suspect WHERE `id_affaire`=? AND `id_suspect`=? ";
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id_affaire);
+			pstmt.setLong(2, id_suspect);
+			int result = pstmt.executeUpdate();
+			if(result != 1) {
+				throw new Exception("No entry found in database !");
+			} else {
+				System.out.println("Record is deleted!");
+			}
+			System.out.println("Result : " + result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+		
+	}
+	
+	/**
+	 * Ajouter un suspect à une affaire
+	 * 
+	 * @param id_affaire
+	 * @param id_suspect
+	 * @throws Exception
+	 */
+	public void lierSuspectAffaire(long id_affaire, long id_suspect) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			// Requete SQL
+			sql = "INSERT INTO affaire_suspect (id_affaire, id_suspect) VALUES (?, ?) ;";
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id_affaire);
+			pstmt.setLong(2, id_suspect);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+	}
 }

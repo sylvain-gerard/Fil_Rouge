@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.dao.SuspectDAO;
+import co.simplon.filrouge.model.AffaireLien;
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.service.SuspectService;
 /**
@@ -99,14 +100,60 @@ public class SuspectController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
 	}
 	
-	
+	/**
+	 * Permettre une recherche de suspect(s) suivant un mots-clés
+	 * 
+	 * @param recherche
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping(path = "/suspects/{recherche}")
 	public ResponseEntity<List<Suspect>> recupererSuspectTriés(@PathVariable(value = "recherche") String recherche) throws Exception {
 		List <Suspect> suspectFiltres = suspectDAO.filtreSuspect(recherche);
 		if (suspectFiltres == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok().body(suspectFiltres);
-		
+		return ResponseEntity.ok().body(suspectFiltres);		
 	}
+	
+	/**
+	 * Supprimer un suspect d'une affaire
+	 * 
+	 * @param affaireLien
+	 * @return
+	 * @throws Exception
+	 */
+	@DeleteMapping(path = "/affaire/suppSuspect")
+	public ResponseEntity<?> deleteSuspect(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_suspect = affaireLien.getIdObjet();
+		try {
+		suspectDAO.deleteFromAffaire(id_affaire, id_suspect);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	/**
+	 * Ajouter un suspect à une affaire
+	 * 
+	 * @param affaireLien
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping(path = "/affaire/lierSuspect")
+	public ResponseEntity<?>  lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_suspect = affaireLien.getIdObjet();
+		try {
+		suspectDAO.lierSuspectAffaire(id_affaire, id_suspect);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
 }
