@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.filrouge.dao.SuspectDAO;
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.service.SuspectService;
 /**
@@ -30,6 +33,9 @@ public class SuspectController {
 
 	@Autowired
 	private SuspectService suspectService;
+	
+	@Autowired
+	private SuspectDAO suspectDAO;
 	
 	@GetMapping(path = "/suspects")
 	public @ResponseBody Iterable<Suspect> getAllSuspects() throws Exception {
@@ -91,5 +97,16 @@ public class SuspectController {
 				
 		Suspect updatedSuspect = suspectService.editSuspect(suspectToEdit);//INSERT INTO `suspect` (`id`, `nom`, `prenom`, `adn`, `adresse`, `date_naissance`, `infos_suspect`, `poids`, `sexe`, `signes_particuliers`, `taille`) VALUES (?,?,?,?,?,?,?,?,?,?);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedSuspect);
+	}
+	
+	
+	@GetMapping(path = "/suspects/{recherche}")
+	public ResponseEntity<List<Suspect>> recupererSuspectTriés(@PathVariable(value = "recherche") String recherche) throws Exception {
+		List <Suspect> suspectFiltres = suspectDAO.filtreSuspect(recherche);
+		if (suspectFiltres == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(suspectFiltres);
+		
 	}
 }

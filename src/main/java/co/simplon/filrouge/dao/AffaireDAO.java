@@ -136,7 +136,7 @@ public class AffaireDAO {
 		suspect.setId(rs.getLong("id"));
 		suspect.setNom(rs.getString("nom"));
 		suspect.setPrenom(rs.getString("prenom"));
-		//suspect.setMatricule(rs.getString("matricule"));
+		suspect.setMatricule(rs.getString("matricule"));
 		suspect.setAdresse(rs.getString("adresse"));
 		suspect.setDate_naissance(rs.getDate("date_naissance"));
 		suspect.setTaille(rs.getDouble("taille"));
