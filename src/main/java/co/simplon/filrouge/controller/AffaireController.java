@@ -101,8 +101,6 @@ public class AffaireController {
 	public ResponseEntity<?> recupererArmesDeAffaire(@PathVariable(value = "id") long id) throws Exception {
 		List<Arme> armes = 	null;
 		Affaire affaire = affaireService.getAffaire(id);
-		//armes = affaireDAO.recupererArmesDeAffaire(id);
-		//System.out.println(armes);
 		try {
 		armes = affaireDAO.recupererArmesDeAffaire(id);
 		}
@@ -113,7 +111,6 @@ public class AffaireController {
 		if (affaire == null) {
 			return ResponseEntity.notFound().build();
 		}
-//		return (ResponseEntity<Arme>) armes;
 		return ResponseEntity.status(HttpStatus.OK).body(armes);
 
 		

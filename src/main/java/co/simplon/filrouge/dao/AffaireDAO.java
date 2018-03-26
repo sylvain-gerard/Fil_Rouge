@@ -12,10 +12,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import co.simplon.filrouge.model.Arme;
@@ -27,19 +24,7 @@ public class AffaireDAO {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private Environment env;
 	private DataSource dataSource;
-	
-//	@Bean 
-//	public DataSource dataSource() {
-//		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//		dataSource.setUrl(env.getProperty("spring.datasource.url"));
-//		dataSource.setUsername("admin");
-//		dataSource.setPassword("admin");
-//		return dataSource;
-//	}
-	
 
 	@Autowired
 	public AffaireDAO(JdbcTemplate jdbcTemplate) {
@@ -57,8 +42,7 @@ public class AffaireDAO {
 			// Requete SQL
 			sql = " SELECT arme.*\r\n" + 
 			"  FROM arme\r\n" + 
-			"INNER JOIN affaire_arme\r\n" + 
-			"  ON arme.id = affaire_arme.id_arme\r\n" + 
+					"INNER JOIN affaire_arme\r\n" + "  ON arme.id = affaire_arme.id_arme\r\n" + 
 			"INNER JOIN affaire\r\n" + 
 			"  ON affaire_arme.id_affaire = affaire.id_affaire\r\n" + 
 			"  WHERE affaire.id_affaire = ?;";

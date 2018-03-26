@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.filrouge.dao.ArmeDAO;
 import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.service.ArmeService;
 
@@ -25,6 +28,8 @@ public class ArmeController {
 
 	@Autowired
 	private ArmeService armeService;
+	@Autowired
+	private ArmeDAO armeDAO;
 
 	// exemple en SQL :
 	// SELECT * FROM arme;
@@ -32,6 +37,17 @@ public class ArmeController {
 	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception {
 		return armeService.recupererToutesLesArmes();
 	}
+	
+	@GetMapping(path = "/armes/{recherche}")
+	public ResponseEntity<List<Arme>> recupererArmesTriees(@PathVariable(value = "recherche") String recherche) throws Exception {
+		List <Arme> listeArme =  armeDAO.recupererArmesTriees(recherche);
+		if (listeArme == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(listeArme);
+		
+	}
+	
 
 	// exemple en SQL :
 	// SELECT * FROM arme WHERE id=3;
