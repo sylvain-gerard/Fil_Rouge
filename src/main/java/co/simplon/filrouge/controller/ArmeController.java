@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.dao.ArmeDAO;
+import co.simplon.filrouge.model.AffaireLien;
 import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.service.ArmeService;
 
@@ -37,17 +38,19 @@ public class ArmeController {
 	public @ResponseBody Iterable<Arme> getAllArmes() throws Exception {
 		return armeService.recupererToutesLesArmes();
 	}
-	
+
 	@GetMapping(path = "/armes/{recherche}")
-	public ResponseEntity<List<Arme>> recupererArmesTriees(@PathVariable(value = "recherche") String recherche) throws Exception {
-		List <Arme> listeArme =  armeDAO.recupererArmesTriees(recherche);
+	public ResponseEntity<List<Arme>> recupererArmesTriees(@PathVariable(value = "recherche") String recherche)
+			throws Exception {
+		// @RequestParam(required = false, value="marque") String marque
+
+		List<Arme> listeArme = armeDAO.recupererArmesTriees(recherche);
 		if (listeArme == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok().body(listeArme);
-		
+
 	}
-	
 
 	// exemple en SQL :
 	// SELECT * FROM arme WHERE id=3;
@@ -71,6 +74,13 @@ public class ArmeController {
 		armeService.supprimerArme(id);
 		return ResponseEntity.ok().build();
 	}
+	@DeleteMapping(path = "/affaire/{id}/arme/{id_arme}")
+	ResponseEntity<?> supprimerArmeAffaire(@Valid @PathVariable(value = "id_affaire") long id_affaire,
+			@Valid @PathVariable(value = "id_arme") long id_arme) throws Exception {
+		armeDAO.supprimerArmeAffaire(id_affaire, id_arme);
+
+		return ResponseEntity.ok().build();
+	}
 
 	// exemple en SQL :
 	// INSERT INTO arme (`marque`, `modele`, `type`, `calibre`, `numero_serie`,
@@ -78,6 +88,15 @@ public class ArmeController {
 	@PostMapping(path = "/armes")
 	Arme ajouterArme(@Valid @RequestBody Arme arme) throws Exception {
 		return armeService.ajouterArme(arme);
+	}
+
+	@PostMapping(path = "/affaire/lierArme")
+	void lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_arme = affaireLien.getIdObjet();
+		armeDAO.lierArmeAffaire(id_affaire, id_arme);
+		return;
+
 	}
 
 	// exemple en SQL :

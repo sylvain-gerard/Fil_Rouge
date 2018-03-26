@@ -18,7 +18,7 @@ import co.simplon.filrouge.model.Arme;
 
 @Repository
 public class ArmeDAO {
-	
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private DataSource dataSource;
@@ -27,9 +27,10 @@ public class ArmeDAO {
 	public ArmeDAO(JdbcTemplate jdbcTemplate) {
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
-	public List<Arme> recupererArmesTriees(String rechercheArme) throws Exception{
+
+	public List<Arme> recupererArmesTriees(String rechercheArme) throws Exception {
 		List<Arme> armesTriees = new ArrayList<Arme>();
-		
+
 		Arme arme;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -45,26 +46,73 @@ public class ArmeDAO {
 			pstmt.setString(4, "%" + rechercheArme + "%");
 			pstmt.setString(5, "%" + rechercheArme + "%");
 			pstmt.setString(6, "%" + rechercheArme + "%");
-			
-			// Log info
-						logSQL(pstmt);
-						// Lancement requete
-						rs = pstmt.executeQuery();
-						// resultat requete
-						while (rs.next()) {
-							arme = recupererArmeRS(rs);
-							armesTriees.add(arme);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						log.error("SQL Error !:" + pstmt.toString(), e);
-						throw e;
-					} finally {
-						pstmt.close();
-					}
 
-					return armesTriees;
-				}
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			rs = pstmt.executeQuery();
+			// resultat requete
+			while (rs.next()) {
+				arme = recupererArmeRS(rs);
+				armesTriees.add(arme);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+
+		return armesTriees;
+	}
+
+	public void lierArmeAffaire(long id_affaire, long id_arme) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			// Requete SQL
+			sql = "INSERT INTO affaire_arme (id_affaire, id_arme) VALUES (?, ?) ;";
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id_affaire);
+			pstmt.setLong(2, id_arme);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+	}
+	
+	public void supprimerArmeAffaire(long id_affaire, long id_arme) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			// Requete SQL
+			sql = "DELETE FROM affaire_arme WHERE `id_affaire` = ? AND `id_arme` = ? ;";
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id_affaire);
+			pstmt.setLong(2, id_arme);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+	}
+
 	private Arme recupererArmeRS(ResultSet rs) throws SQLException {
 		Arme arme = new Arme();
 		arme.setId(rs.getLong("id"));
@@ -87,5 +135,4 @@ public class ArmeDAO {
 		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
 		log.debug(sql);
 	}
-		}
-
+}
