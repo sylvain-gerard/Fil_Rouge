@@ -1,5 +1,7 @@
 package co.simplon.filrouge.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.filrouge.dao.VehiculeDAO;
+import co.simplon.filrouge.model.AffaireLien;
 import co.simplon.filrouge.model.Vehicule;
 import co.simplon.filrouge.service.VehiculeService;
 
@@ -26,6 +30,8 @@ public class VehiculeController {
 
 	@Autowired
 	private VehiculeService vehiculeService;
+	@Autowired
+	private VehiculeDAO vehiculeDAO;
 
 	/* Exemple requête SQL :
 	 * SELECT * FROM filrouge.vehicule; 
@@ -33,6 +39,61 @@ public class VehiculeController {
 	@GetMapping(path = "/vehicules")
 	public @ResponseBody Iterable<Vehicule> getAllVehicules() throws Exception {
 		return vehiculeService.getAllVehicules();
+	}
+	
+	/**
+	 * Permettre une recherche de véhicule(s) suivant des mots-clés
+	 * 
+	 * @param recherche
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping(path = "/vehicules/{recherche}")
+	public ResponseEntity<List<Vehicule>> recupererVehiculesTriees(@PathVariable(value = "recherche") String recherche)
+			throws Exception {
+		// @RequestParam(required = false, value="marque") String marque
+
+		List<Vehicule> listeVehicule = vehiculeDAO.recupererVehiculesTriees(recherche);
+		if (listeVehicule == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(listeVehicule);
+	}
+	
+	/**
+	 * Ajouter un véhicule à une affaire
+	 * 
+	 * @param affaireLien
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping(path = "/affaire/lierVehicule")
+	void lierVehiculeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_vehicule = affaireLien.getIdObjet();
+		vehiculeDAO.lierVehiculeAffaire(id_affaire, id_vehicule);
+		return;
+
+	}
+	
+	/**
+	 * Supprimer un véhicule d'une affaire
+	 * 
+	 * @param affaireLien
+	 * @return
+	 * @throws Exception
+	 */
+	@DeleteMapping(path = "/affaire/suppVehicule")
+	public ResponseEntity<?> deleteVehicule(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_vehicule = affaireLien.getIdObjet();
+		try {
+		vehiculeDAO.deleteFromAffaire(id_affaire, id_vehicule);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
 	/* Exemple requête SQL :
