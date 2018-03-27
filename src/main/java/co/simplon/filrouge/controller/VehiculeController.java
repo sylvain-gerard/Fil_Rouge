@@ -91,12 +91,11 @@ public class VehiculeController {
 	 * @return
 	 * @throws Exception
 	 */
-	@DeleteMapping(path = "/affaire/suppVehicule")
-	public ResponseEntity<?> deleteVehicule(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
-		long id_affaire = affaireLien.getIdAffaire();
-		long id_vehicule = affaireLien.getIdObjet();
+	@DeleteMapping(path = "/affaire/{id_affaire}/vehicule/{id}")
+	public ResponseEntity<?> deleteVehiculeAffaire(@PathVariable(value = "id_affaire") long id_affaire,
+			@PathVariable(value = "id") long id) throws Exception {
 		try {
-		vehiculeDAO.deleteFromAffaire(id_affaire, id_vehicule);
+		vehiculeDAO.deleteFromAffaire(id_affaire, id);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
