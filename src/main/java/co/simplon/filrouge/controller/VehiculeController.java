@@ -19,9 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.dao.VehiculeDAO;
+import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.AffaireLien;
+import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.model.Vehicule;
 import co.simplon.filrouge.service.VehiculeService;
+
+/**
+ * 
+ * @author Davy
+ *
+ */
 
 @RestController
 @RequestMapping("/api")
@@ -156,6 +164,25 @@ public class VehiculeController {
 
 		Vehicule vehiculeModifiee = vehiculeService.editVehicule(id, vehiculeAModifier);
 		return ResponseEntity.ok(vehiculeModifiee);
+	}
+	
+	@GetMapping(path = "/vehicule/{id}/affaires")
+	public ResponseEntity<?> recupererAffairesDeVehicule(@PathVariable(value = "id") long id) throws Exception {
+		List<Affaire> affaires = 	null;
+		Vehicule vehicule = vehiculeService.getVehicule(id);
+		try {
+		affaires = vehiculeDAO.recupererAffairesDeVehicule(id);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			
+		}
+		if (vehicule == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(affaires);
+
+		
 	}
 
 }

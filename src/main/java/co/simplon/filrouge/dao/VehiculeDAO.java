@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.Vehicule;
 
 @Repository
@@ -182,5 +183,54 @@ public class VehiculeDAO {
 
 		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
 		log.debug(sql);
+	}
+	
+	public List<Affaire> recupererAffairesDeVehicule(Long id) throws Exception {
+		Affaire affaire;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<Affaire> listeAffaire = new ArrayList<Affaire>();
+
+		try {
+			// Requete SQL
+			sql = " SELECT affaire.*\r\n" + 
+			"  FROM affaire\r\n" + 
+					"INNER JOIN affaire_vehicule\r\n" + "  ON affaire.id_affaire = affaire_vehicule.id_affaire\r\n" + 
+			"INNER JOIN vehicule\r\n" + 
+			"  ON affaire_vehicule.id_vehicule = vehicule.id\r\n" + 
+			"  WHERE vehicule.id = ?;";
+		
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			rs = pstmt.executeQuery();
+			// resultat requete
+			while (rs.next()) {
+				affaire = recupererAffaireRS(rs);
+				listeAffaire.add(affaire);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+
+		return listeAffaire;
+	}
+	
+	private Affaire recupererAffaireRS(ResultSet rs) throws SQLException {
+		Affaire affaire = new Affaire();
+		affaire.setId_affaire(rs.getLong("id_affaire"));
+		affaire.setClassee(rs.getBoolean("classee"));
+		affaire.setDate_cloture(rs.getDate("date_cloture"));
+		affaire.setDate_creation(rs.getDate("date_creation"));
+		affaire.setNom_affaire(rs.getString("nom_affaire"));
+		affaire.setPieces_conviction(rs.getString("pieces_conviction"));
+		return affaire;
 	}
 }
