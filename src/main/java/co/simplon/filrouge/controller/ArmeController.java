@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.dao.ArmeDAO;
+import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.AffaireLien;
 import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.service.ArmeService;
@@ -62,7 +64,26 @@ public class ArmeController {
 		}
 		return ResponseEntity.ok().body(arme);
 	}
+	
+	
+	@GetMapping(path = "/arme/{id}/affaires")
+	public ResponseEntity<?> recupererAffairesDeArme(@PathVariable(value = "id") long id) throws Exception {
+		List<Affaire> affaires = 	null;
+		Arme arme = armeService.recupererArme(id);
+		try {
+		affaires = armeDAO.recupererAffairesDeArme(id);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			
+		}
+		if (arme == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(affaires);
 
+		
+	}
 	// exemple en SQL :
 	// DELETE FROM arme WHERE id=3;
 	@DeleteMapping(path = "/arme/{id}")
@@ -74,28 +95,40 @@ public class ArmeController {
 		armeService.supprimerArme(id);
 		return ResponseEntity.ok().build();
 	}
-	@DeleteMapping(path = "/affaire/{id}/arme/{id_arme}")
-	ResponseEntity<?> supprimerArmeAffaire(@Valid @PathVariable(value = "id_affaire") long id_affaire,
-			@Valid @PathVariable(value = "id_arme") long id_arme) throws Exception {
-		armeDAO.supprimerArmeAffaire(id_affaire, id_arme);
 
-		return ResponseEntity.ok().build();
+	@DeleteMapping(path = "/affaire/suppArme")
+	public ResponseEntity<?> supprimerArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+		long id_affaire = affaireLien.getIdAffaire();
+		long id_arme = affaireLien.getIdObjet();
+		try {
+			armeDAO.supprimerArmeAffaire(id_affaire, id_arme);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
 	// exemple en SQL :
 	// INSERT INTO arme (`marque`, `modele`, `type`, `calibre`, `numero_serie`,
-	// `infos_complementaire`) VALUES ('Berretta', '93', 'Pistolet', '9mm', '1235TYU678', '');
+	// `infos_complementaire`) VALUES ('Berretta', '93', 'Pistolet', '9mm',
+	// '1235TYU678', '');
 	@PostMapping(path = "/armes")
 	Arme ajouterArme(@Valid @RequestBody Arme arme) throws Exception {
 		return armeService.ajouterArme(arme);
 	}
 
 	@PostMapping(path = "/affaire/lierArme")
-	void lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+	ResponseEntity<?> lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
 		long id_affaire = affaireLien.getIdAffaire();
 		long id_arme = affaireLien.getIdObjet();
-		armeDAO.lierArmeAffaire(id_affaire, id_arme);
-		return;
+		try {
+			armeDAO.lierArmeAffaire(id_affaire, id_arme);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 
 	}
 

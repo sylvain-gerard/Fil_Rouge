@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.Arme;
 
 @Repository
@@ -89,20 +90,24 @@ public class ArmeDAO {
 			pstmt.close();
 		}
 	}
-	
+
 	public void supprimerArmeAffaire(long id_affaire, long id_arme) throws Exception {
 		PreparedStatement pstmt = null;
 		String sql;
+
 		try {
 			// Requete SQL
-			sql = "DELETE FROM affaire_arme WHERE `id_affaire` = ? AND `id_arme` = ? ;";
+			sql = " DELETE FROM affaire_arme WHERE `id_affaire`=? AND `id_arme`=? ";
 			pstmt = dataSource.getConnection().prepareStatement(sql);
 			pstmt.setLong(1, id_affaire);
 			pstmt.setLong(2, id_arme);
-			// Log info
-			logSQL(pstmt);
-			// Lancement requete
-			pstmt.executeUpdate();
+			// Execution requete
+			int resultat = pstmt.executeUpdate();
+			if (resultat != 1) {
+				throw new Exception("Cette entrée n'existe pas dans la base de donnée.");
+			} else {
+				System.out.println("Le lien a été supprimé");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,6 +118,44 @@ public class ArmeDAO {
 		}
 	}
 
+	public List<Affaire> recupererAffairesDeArme(Long id) throws Exception {
+		Affaire affaire;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<Affaire> listeAffaire = new ArrayList<Affaire>();
+
+		try {
+			// Requete SQL
+			sql = " SELECT affaire.*\r\n" + 
+			"  FROM affaire\r\n" + 
+					"INNER JOIN affaire_arme\r\n" + "  ON affaire.id_affaire = affaire_arme.id_affaire\r\n" + 
+			"INNER JOIN arme\r\n" + 
+			"  ON affaire_arme.id_arme = arme.id\r\n" + 
+			"  WHERE arme.id = ?;";
+		
+			pstmt = dataSource.getConnection().prepareStatement(sql);
+			pstmt.setLong(1, id);
+			// Log info
+			logSQL(pstmt);
+			// Lancement requete
+			rs = pstmt.executeQuery();
+			// resultat requete
+			while (rs.next()) {
+				affaire = recupererAffaireRS(rs);
+				listeAffaire.add(affaire);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+		}
+
+		return listeAffaire;
+	}
+	
 	private Arme recupererArmeRS(ResultSet rs) throws SQLException {
 		Arme arme = new Arme();
 		arme.setId(rs.getLong("id"));
@@ -124,6 +167,18 @@ public class ArmeDAO {
 		arme.setInfos_complementaire(rs.getString("infos_complementaire"));
 
 		return arme;
+	}
+	
+	private Affaire recupererAffaireRS(ResultSet rs) throws SQLException {
+		Affaire affaire = new Affaire();
+		affaire.setId_affaire(rs.getLong("id_affaire"));
+		affaire.setNom_affaire(rs.getString("nom_affaire"));
+		affaire.setDate_creation(rs.getDate("date_creation"));
+		affaire.setDate_cloture(rs.getDate("Date_cloture"));
+		affaire.setClassee(rs.getBoolean("classee"));
+		affaire.setPieces_conviction(rs.getString("pieces_conviction"));
+
+		return affaire;
 	}
 
 	private void logSQL(PreparedStatement pstmt) {
