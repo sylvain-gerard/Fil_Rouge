@@ -1,8 +1,10 @@
 package co.simplon.filrouge.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.filrouge.dao.SuspectDAO;
+import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.model.AffaireLien;
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.service.SuspectService;
@@ -124,7 +127,7 @@ public class SuspectController {
 	 * @throws Exception
 	 */
 	@DeleteMapping(path = "/affaire/suppSuspect")
-	public ResponseEntity<?> deleteSuspect(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+	public ResponseEntity<?> deleteSuspectAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
 		long id_affaire = affaireLien.getIdAffaire();
 		long id_suspect = affaireLien.getIdObjet();
 		try {
@@ -144,7 +147,7 @@ public class SuspectController {
 	 * @throws Exception
 	 */
 	@PostMapping(path = "/affaire/lierSuspect")
-	public ResponseEntity<?>  lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
+	public ResponseEntity<?>  lierSuspectAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
 		long id_affaire = affaireLien.getIdAffaire();
 		long id_suspect = affaireLien.getIdObjet();
 		try {
@@ -154,6 +157,26 @@ public class SuspectController {
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@GetMapping(path="/suspect/affaires/{id_suspect}")
+	public ResponseEntity<?> afficherAffairesDuSuspect(@PathVariable Long id_suspect) throws Exception {
+		
+		Suspect suspect = suspectService.getSuspect(id_suspect);
+		if(suspect!=null) {
+		
+			List <Affaire> affaireLiees = new ArrayList<Affaire>();
+			affaireLiees = suspectDAO.affairesLieesSuspect(id_suspect);
+			if(affaireLiees==null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.OK).body(affaireLiees);
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No entry for suspect with id :" + id_suspect);
+		}
+			
 	}
 	
 }
