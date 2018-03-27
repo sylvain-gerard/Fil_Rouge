@@ -126,10 +126,9 @@ public class SuspectController {
 	 * @return
 	 * @throws Exception
 	 */
-	@DeleteMapping(path = "/affaire/suppSuspect")
-	public ResponseEntity<?> deleteSuspectAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
-		long id_affaire = affaireLien.getIdAffaire();
-		long id_suspect = affaireLien.getIdObjet();
+	@DeleteMapping(path = "/affaire/{id_affaire}/suspect/{id_suspect}")
+	public ResponseEntity<?> deleteSuspectAffaire(@PathVariable(value = "id_affaire") long id_affaire,
+			@PathVariable(value = "id_suspect") long id_suspect) throws Exception {
 		try {
 		suspectDAO.deleteFromAffaire(id_affaire, id_suspect);
 		} catch (Exception e) {
