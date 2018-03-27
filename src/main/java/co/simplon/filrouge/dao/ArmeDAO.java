@@ -29,6 +29,13 @@ public class ArmeDAO {
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
 
+	/**
+	 * Recuperer les armes avec un mot clé
+	 * 
+	 * @param rechercheArme
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Arme> recupererArmesTriees(String rechercheArme) throws Exception {
 		List<Arme> armesTriees = new ArrayList<Arme>();
 
@@ -68,6 +75,13 @@ public class ArmeDAO {
 		return armesTriees;
 	}
 
+	/**
+	 * Lier une arme à l'affaire
+	 * 
+	 * @param id_affaire
+	 * @param id_arme
+	 * @throws Exception
+	 */
 	public void lierArmeAffaire(long id_affaire, long id_arme) throws Exception {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -91,6 +105,13 @@ public class ArmeDAO {
 		}
 	}
 
+	/**
+	 * Supprimer le lien entre l'arme et l'affaire
+	 * 
+	 * @param id_affaire
+	 * @param id_arme
+	 * @throws Exception
+	 */
 	public void supprimerArmeAffaire(long id_affaire, long id_arme) throws Exception {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -118,6 +139,13 @@ public class ArmeDAO {
 		}
 	}
 
+	/**
+	 * Recuperer les affaires liées à l'arme
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Affaire> recupererAffairesDeArme(Long id) throws Exception {
 		Affaire affaire;
 		PreparedStatement pstmt = null;
@@ -127,13 +155,10 @@ public class ArmeDAO {
 
 		try {
 			// Requete SQL
-			sql = " SELECT affaire.*\r\n" + 
-			"  FROM affaire\r\n" + 
-					"INNER JOIN affaire_arme\r\n" + "  ON affaire.id_affaire = affaire_arme.id_affaire\r\n" + 
-			"INNER JOIN arme\r\n" + 
-			"  ON affaire_arme.id_arme = arme.id\r\n" + 
-			"  WHERE arme.id = ?;";
-		
+			sql = " SELECT affaire.*\r\n" + "  FROM affaire\r\n" + "INNER JOIN affaire_arme\r\n"
+					+ "  ON affaire.id_affaire = affaire_arme.id_affaire\r\n" + "INNER JOIN arme\r\n"
+					+ "  ON affaire_arme.id_arme = arme.id\r\n" + "  WHERE arme.id = ?;";
+
 			pstmt = dataSource.getConnection().prepareStatement(sql);
 			pstmt.setLong(1, id);
 			// Log info
@@ -155,7 +180,13 @@ public class ArmeDAO {
 
 		return listeAffaire;
 	}
-	
+
+	/**
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private Arme recupererArmeRS(ResultSet rs) throws SQLException {
 		Arme arme = new Arme();
 		arme.setId(rs.getLong("id"));
@@ -168,7 +199,13 @@ public class ArmeDAO {
 
 		return arme;
 	}
-	
+
+	/**
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private Affaire recupererAffaireRS(ResultSet rs) throws SQLException {
 		Affaire affaire = new Affaire();
 		affaire.setId_affaire(rs.getLong("id_affaire"));
@@ -181,6 +218,10 @@ public class ArmeDAO {
 		return affaire;
 	}
 
+	/**
+	 * 
+	 * @param pstmt
+	 */
 	private void logSQL(PreparedStatement pstmt) {
 		String sql;
 

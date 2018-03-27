@@ -41,6 +41,13 @@ public class ArmeController {
 		return armeService.recupererToutesLesArmes();
 	}
 
+	/**
+	 * Rechercher les armes avec un mot clé
+	 * 
+	 * @param recherche
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping(path = "/armes/{recherche}")
 	public ResponseEntity<List<Arme>> recupererArmesTriees(@PathVariable(value = "recherche") String recherche)
 			throws Exception {
@@ -64,26 +71,31 @@ public class ArmeController {
 		}
 		return ResponseEntity.ok().body(arme);
 	}
-	
-	
+
+	/**
+	 * Recuperer les affaire liées à l'arme
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping(path = "/arme/{id}/affaires")
 	public ResponseEntity<?> recupererAffairesDeArme(@PathVariable(value = "id") long id) throws Exception {
-		List<Affaire> affaires = 	null;
+		List<Affaire> affaires = null;
 		Arme arme = armeService.recupererArme(id);
 		try {
-		affaires = armeDAO.recupererAffairesDeArme(id);
-		}
-		catch (Exception e) {
+			affaires = armeDAO.recupererAffairesDeArme(id);
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-			
+
 		}
 		if (arme == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(affaires);
 
-		
 	}
+
 	// exemple en SQL :
 	// DELETE FROM arme WHERE id=3;
 	@DeleteMapping(path = "/arme/{id}")
@@ -96,10 +108,18 @@ public class ArmeController {
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping(path = "/affaire/suppArme")
-	public ResponseEntity<?> supprimerArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
-		long id_affaire = affaireLien.getIdAffaire();
-		long id_arme = affaireLien.getIdObjet();
+	/**
+	 * Supprimer une arme de l'affaire
+	 * 
+	 * @param id_affaire
+	 * @param id_arme
+	 * @return
+	 * @throws Exception
+	 */
+
+	@DeleteMapping(path = "/affaire/{id_affaire}/suppArme/{id_arme}")
+	public ResponseEntity<?> supprimerArmeAffaire(@PathVariable(value = "id_affaire") long id_affaire,
+			@PathVariable(value = "id_arme") long id_arme) throws Exception {
 		try {
 			armeDAO.supprimerArmeAffaire(id_affaire, id_arme);
 		} catch (Exception e) {
@@ -118,6 +138,13 @@ public class ArmeController {
 		return armeService.ajouterArme(arme);
 	}
 
+	/**
+	 * Lier une arme à l'affaire
+	 * 
+	 * @param affaireLien
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping(path = "/affaire/lierArme")
 	ResponseEntity<?> lierArmeAffaire(@Valid @RequestBody AffaireLien affaireLien) throws Exception {
 		long id_affaire = affaireLien.getIdAffaire();
