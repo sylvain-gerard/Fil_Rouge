@@ -46,7 +46,9 @@ public class SuspectDAO {
 		
 		try {
 			// Requete SQL
-			sql = "SELECT * FROM suspect WHERE nom LIKE ? "
+			sql = "SELECT * "
+					+ "FROM suspect "
+					+ "WHERE nom LIKE ? "
 					+ "OR prenom LIKE ? "
 					+ "OR adn LIKE ? "
 					+ "OR adresse LIKE ? "
@@ -194,12 +196,12 @@ public class SuspectDAO {
 		
 		try {
 			sql="SELECT affaire.*\r\n" + 
-					"FROM affaire \r\n" + 
-					"INNER JOIN affaire_suspect \r\n" + 
-					"ON affaire.id_affaire = affaire_suspect.id_affaire\r\n" + 
-					"INNER JOIN suspect\r\n" + 
-					"ON suspect.id = affaire_suspect.id_suspect\r\n" + 
-					"WHERE suspect.id = ?;";
+					   "FROM affaire \r\n" + 
+					   "INNER JOIN affaire_suspect \r\n" + 
+					   		"ON affaire.id_affaire = affaire_suspect.id_affaire\r\n" + 
+					   "INNER JOIN suspect\r\n" + 
+					   		"ON suspect.id = affaire_suspect.id_suspect\r\n" + 
+					   "WHERE suspect.id = ?;";
 			pstmt = dataSource.getConnection().prepareStatement(sql);
 			pstmt.setLong(1, id_suspect);
 			logSQL(pstmt);
