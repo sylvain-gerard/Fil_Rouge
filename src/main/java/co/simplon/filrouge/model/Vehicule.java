@@ -1,6 +1,9 @@
 package co.simplon.filrouge.model;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +15,7 @@ public class Vehicule extends Objet {
 	private String couleur_vehicule;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "vehicule")
+	@JsonIgnore
 	private Set<Affaire> affaire = new HashSet<>();
 
 	public Vehicule() {

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * 
  * @author Sylvain
@@ -37,6 +39,7 @@ public class Suspect extends Humain {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "suspect")
+	@JsonIgnore
 	private Set<Affaire> affaire = new HashSet<>();
 
 	public Suspect() {

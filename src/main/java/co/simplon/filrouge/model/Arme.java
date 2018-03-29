@@ -1,9 +1,16 @@
 package co.simplon.filrouge.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "arme")
@@ -15,6 +22,7 @@ public class Arme extends Objet {
 	private String numero_serie;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "arme")
+	@JsonIgnore
 	private Set<Affaire> affaire = new HashSet<>();
 
 	public Arme() {
