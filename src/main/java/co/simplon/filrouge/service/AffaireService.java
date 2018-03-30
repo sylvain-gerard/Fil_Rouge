@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.simplon.filrouge.model.Affaire;
 import co.simplon.filrouge.repository.AffaireRepository;
-
+/**
+ * 
+ * @author Fabrice
+ *
+ */
 @Service
 public class AffaireService {
 
