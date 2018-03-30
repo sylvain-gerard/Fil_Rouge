@@ -156,6 +156,7 @@ C’est pourquoi, des commentaires ont été intégrés dans les Controllers (/F
 - SuspectService
 - SuspectRepository
 - SuspectControllerTest
+- UtilisateurControllerTest
 - UtilisateurController
 - UtilisateurService
 - UtilisateurRepository
