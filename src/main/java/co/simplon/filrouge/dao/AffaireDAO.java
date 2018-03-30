@@ -31,6 +31,13 @@ public class AffaireDAO {
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
 
+	/**
+	 * Rechercher les armes liées à une affaire
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Arme> recupererArmesDeAffaire(Long id) throws Exception {
 		Arme arme;
 		PreparedStatement pstmt = null;
@@ -92,6 +99,13 @@ public class AffaireDAO {
 		log.debug(sql);
 	}
 
+		/**
+	 * Rechercher les suspects liés à une affaire
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Suspect> recupererSuspectsDeAffaire(long id) throws SQLException {
 		Suspect suspect;
 		PreparedStatement pstmt = null;
@@ -148,6 +162,13 @@ public class AffaireDAO {
 		return suspect;
 	}
 
+	/**
+	 * Rechercher les véhicules liés à une affaire
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Vehicule> recupererVehiculesDeAffaire(Long id) throws Exception {
 		Vehicule vehicule;
 		PreparedStatement pstmt = null;
