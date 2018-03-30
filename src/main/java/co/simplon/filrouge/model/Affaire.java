@@ -5,6 +5,12 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 
+ * @author Fabrice
+ *
+ */
+
 @Entity
 @Table(name = "affaire")
 public class Affaire {
