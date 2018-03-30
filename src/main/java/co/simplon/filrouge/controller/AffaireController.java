@@ -24,7 +24,11 @@ import co.simplon.filrouge.model.Arme;
 import co.simplon.filrouge.model.Suspect;
 import co.simplon.filrouge.model.Vehicule;
 import co.simplon.filrouge.service.AffaireService;
-
+/**
+ * 
+ * @author Fabrice
+ *
+ */
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
@@ -35,11 +39,13 @@ public class AffaireController {
 	@Autowired
 	private AffaireDAO affaireDAO;
 
+	//SELECT * FROM affaire;
 	@GetMapping(path = "/affaires")
 	public @ResponseBody Iterable<Affaire> getAllAffaires() throws Exception {
 		return affaireService.getAllAffaires();
 	}
 
+	//SELECT `nom_affaire`, `date_creation`, `date_cloture`, `classee`, `pieces_conviction` FROM suspect WHERE `id_affaire`=id;
 	@GetMapping(path = "/affaire/{id}")
 	ResponseEntity<Affaire> getAffaire(@PathVariable(value = "id") long id) throws Exception {
 		Affaire affaire = affaireService.getAffaire(id);
@@ -50,6 +56,7 @@ public class AffaireController {
 
 	}
 
+	//DELETE FROM affaire WHERE `id_affaire`=id;
 	@DeleteMapping(path = "/affaire/{id}")
 	ResponseEntity<Affaire> deleteAffaire(@PathVariable(value = "id") long id) throws Exception {
 		Affaire affaire = affaireService.getAffaire(id);
@@ -61,11 +68,13 @@ public class AffaireController {
 	}
 	// }
 
+	//INSERT INTO `affaire` (`nom_affaire`, `date_creation`, `date_cloture`, `classee`, `pieces_conviction`) VALUES (?,?,?,?,?);
 	@PostMapping(path = "/affaires")
 	Affaire addAffaire(@Valid @RequestBody Affaire affaire) throws Exception {
 		return affaireService.addAffaire(affaire);
 	}
 
+	//SELECT `nom_affaire`, `date_creation`, `date_cloture`, `classee`, `pieces_conviction` FROM suspect WHERE `id_affaire`=id;
 	@PutMapping(path = "/affaire/{id}")
 	ResponseEntity<Affaire> updateAffaire(@PathVariable(value = "id") long id, @Valid @RequestBody Affaire affaire) throws Exception {
 		Affaire affaireAModifier = affaireService.getAffaire(id);
