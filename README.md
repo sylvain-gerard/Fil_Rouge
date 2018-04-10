@@ -5,7 +5,7 @@
 - Maven (+ commandes exécuter/déployer)
 
 - SGBDR MySQL
-- schema.sql (création de la base et des tables)
+- documents/filrouge_shema.sql (création de la base et des tables)
 - data.sql (obtention des données)
 
 #### Modifications nécessaires (Java : /Fil_Rouge/src/main/resources/application.properties)
@@ -33,6 +33,14 @@ Via le fichier jar:
 /!\ Avec le Jar déjà compilé, aucune modification de la section 2 n’est possible /!\
 1. Ouvrir une invite de commande dans le dossier contenant le fichier jar
 2. Entrer : java -jar monFichier.jar
+
+### SCRIPTS SQL
+
+#### /!\ LES SCRIPTS SQL SONT CONSULTABLES DANS LE DOSSIER DOCUMENTS /!\
+
+- documents/Schema.mwb
+- documents/filrouge_shema.sql  
+- Rappel : Pour l’obtention des données, le fichier “data.sql” est nécessaire et bien présent dans le projet (/Fil_Rouge/src/main/resources/data.sql)
 
 #### Front
 1. Cloner le repo
