@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
@@ -17,7 +18,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "suspect")
+@Table(name = "suspect",
+uniqueConstraints=
+@UniqueConstraint(columnNames= {"adresse", "adn", "matricule", "date_naissance"}))
 public class Suspect extends Humain {
 
 	private String adresse;
