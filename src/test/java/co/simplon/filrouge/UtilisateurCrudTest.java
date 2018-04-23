@@ -60,6 +60,7 @@ public class UtilisateurCrudTest {
 		assertEquals("Lulu", updatedUtilisateur.getNom());
 	}
 	
+	@Rollback(true)
 	@Test
 	public void testInsertUtilisateur() {
 		
@@ -72,6 +73,7 @@ public class UtilisateurCrudTest {
 		assertTrue(newUtilisateur != null);
 	}
 	
+	@Rollback(true)
 	@Test
 	public void testDeleteUtilisateur() {
 		try {
