@@ -20,13 +20,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import co.simplon.filrouge.controller.UtilisateurController;
 import co.simplon.filrouge.model.Utilisateur;
 import co.simplon.filrouge.service.UtilisateurService;
-
+/**
+ * 
+ * @author Sylvain
+ *
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(value=UtilisateurController.class, secure=false)
 public class UtilisateurControllerTest {
-	
-	static Utilisateur user;
-	static Utilisateur newUtilisateur;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -95,23 +96,6 @@ public class UtilisateurControllerTest {
         String expected = "[{id: 1, nom:nom1},{id: 2, nom:nom2}]";       
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
 		
-//		@Test
-//		public void updateUtilisateurOK() throws Exception {
-//			Long id = newUtilisateur.getId();
-//			Utilisateur = null;
-//			user.setNom("Lulu");
-//			user.setPrenom("Berlu");
-//			user.setId(id);
-//			try {
-//				newUtilisateur = utilisateurService.editUtilisateur(user);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			assertTrue(newUtilisateur != null);
-//			assertEquals("Lulu", newUtilisateur.getNom());
-//			assertEquals("Berlu", newUtilisateur.getPrenom());
-//			
-//		}
 	}
 	
 }
