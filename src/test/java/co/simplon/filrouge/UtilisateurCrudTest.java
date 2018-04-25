@@ -3,6 +3,8 @@ package co.simplon.filrouge;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.transaction.Transactional;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,8 @@ import co.simplon.filrouge.service.UtilisateurService;
  * @author Sylvain
  *
  */
+@Transactional
+@Rollback(true)
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FilRougeApplication.class)
 public class UtilisateurCrudTest {
@@ -43,8 +47,7 @@ public class UtilisateurCrudTest {
 		utilisateurService = new UtilisateurService();
 		utilisateur = new Utilisateur();
 	}
-	
-	@Rollback(true)
+		
     @Test
 	public void testUpdateUtilisateur() {
 
@@ -59,8 +62,7 @@ public class UtilisateurCrudTest {
 		assertTrue(updatedUtilisateur != null);
 		assertEquals("Lulu", updatedUtilisateur.getNom());
 	}
-	
-	@Rollback(true)
+		
 	@Test
 	public void testInsertUtilisateur() {
 		
@@ -73,7 +75,6 @@ public class UtilisateurCrudTest {
 		assertTrue(newUtilisateur != null);
 	}
 	
-	@Rollback(true)
 	@Test
 	public void testDeleteUtilisateur() {
 		try {
