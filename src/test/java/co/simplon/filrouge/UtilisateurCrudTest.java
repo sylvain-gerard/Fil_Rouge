@@ -5,9 +5,14 @@ import static org.junit.Assert.assertTrue;
 
 import javax.transaction.Transactional;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
@@ -24,74 +29,99 @@ import co.simplon.filrouge.service.UtilisateurService;
  * @author Sylvain
  *
  */
-@Transactional
-@Rollback(true)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = FilRougeApplication.class)
+//@Transactional
+//@Rollback(true)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = FilRougeApplication.class)
 public class UtilisateurCrudTest {
-	
-	static Utilisateur utilisateur;
-	static Utilisateur updatedUtilisateur;
-	static UtilisateurService utilisateurService;
-	static ResponseEntity<?> newUtilisateur;
-	static ResponseEntity<?> deletedUtilisateur;
-	
-	@Autowired
-	private UtilisateurController utilisateurController;
-	
-	@Autowired
+
+	private Utilisateur utilisateur;
+	private Utilisateur updatedUtilisateur;
+	private ResponseEntity<?> newUtilisateur;
+	private Utilisateur deletedUtilisateur;
+
+	@Mock
 	private UtilisateurRepository utilisateurRepository;
 	
-	@BeforeClass
-	public static void initUtilisateur() throws Exception{
-		utilisateurService = new UtilisateurService();
-		utilisateur = new Utilisateur();
-	}
-		
-    @Test
-	public void testUpdateUtilisateur() {
+	@InjectMocks
+	private UtilisateurService utilisateurService;
 
-		updatedUtilisateur = null;
+	@Before
+	public void initUtilisateur() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		utilisateur = new Utilisateur();
+		//updatedUtilisateur = new Utilisateur();
+	}
+	
+	@Test
+	public void getUtilisateurTestOK() throws Exception {
+		//Given
+		Mockito.when(utilisateurRepository.findOne(1L)).thenReturn(utilisateur);	
+		// When
+		Utilisateur tested = utilisateurService.getUtilisateur(1L);
+		// Then
+		assertEquals(utilisateur, tested);
+		Mockito.verify(utilisateurRepository).findOne(1L);//vérifie le repo utilise la methode UNE seule fois
+		Mockito.verifyNoMoreInteractions(utilisateurRepository);//vérifie que le repo n'a fait que cette méthode
+		
+	}
+	
+	@Test
+	public void testInsertUtilisateur() throws Exception {
+
+		//Given
+		utilisateur = createMock("Test", "Test");
+		Mockito.when(utilisateurRepository.save(utilisateur)).thenReturn(utilisateur);
+		// When
+		Utilisateur newUser = utilisateurService.addUtilisateur(utilisateur);
+		// Then
+		assertEquals("Test", newUser.getNom());
+		assertEquals("Test", newUser.getPrenom());
+		Mockito.verify(utilisateurRepository).save(utilisateur);
+		Mockito.verifyNoMoreInteractions(utilisateurRepository);
+	
+	}
+
+	@Test
+	public void testUpdateUtilisateur() throws Exception {
+		//Given
 		utilisateur = createMock("Lulu", "Berlu");
-		
-		try {
-			updatedUtilisateur = utilisateurRepository.save(utilisateur);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertTrue(updatedUtilisateur != null);
-		assertEquals("Lulu", updatedUtilisateur.getNom());
-	}
-		
-	@Test
-	public void testInsertUtilisateur() {
-		
-		try {
-			utilisateur = createMock("Test", "Test");
-			newUtilisateur = utilisateurController.createUtilisateur(utilisateur);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertTrue(newUtilisateur != null);
+		updatedUtilisateur = createMock("NOM", "PRENOM");
+		Mockito.when(utilisateurRepository.save(updatedUtilisateur)).thenReturn(updatedUtilisateur);
+		// When
+		Utilisateur newUser = utilisateurService.editUtilisateur(updatedUtilisateur);
+		// Then
+		assertEquals("NOM", newUser.getNom());
+		assertEquals("PRENOM", newUser.getPrenom());
 	}
 	
-	@Test
-	public void testDeleteUtilisateur() {
-		try {
-			utilisateur = createMock("Test", "Test");
-			deletedUtilisateur = utilisateurController.createUtilisateur(utilisateur);
-			deletedUtilisateur = utilisateurController.deleteUtilisateur((long) 1);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assertTrue(deletedUtilisateur.getBody() == null);
-	}
 	
+
+	
+//	@Test
+//	public void testDeleteUtilisateur() {
+//		
+//		//Given
+//		deletedUtilisateur = createMock("Test", "Test");
+//		deletedUtilisateur.setId(1L);
+//		//When
+//				
+//		//Then
+//		try {
+//			utilisateur = createMock("Test", "Test");
+//			deletedUtilisateur = utilisateurController.createUtilisateur(utilisateur);
+//			deletedUtilisateur = utilisateurController.deleteUtilisateur((long) 1);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		assertTrue(deletedUtilisateur.getBody() == null);
+//	}
+
 	private Utilisateur createMock(String nom, String prenom) {
 		Utilisateur mock = new Utilisateur();
 		mock.setNom(nom);
 		mock.setPrenom(prenom);
-     	mock.setId(new Long(1));
+		mock.setId(1L);
 
 		return mock;
 	}

@@ -39,10 +39,10 @@ public class UtilisateurControllerTest {
 	public void getUtilisateurOK() throws Exception {
 		
 		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setId((long) 1);
+		utilisateur.setId(1L);
 		utilisateur.setNom("nomTest");
 		
-		Mockito.when(utilisateurService.getUtilisateur((long) 1)).thenReturn(utilisateur);
+		Mockito.when(utilisateurService.getUtilisateur(1L)).thenReturn(utilisateur);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("http://localhost:8080/api/utilisateur/1").accept(MediaType.APPLICATION_JSON);
 	       
@@ -58,9 +58,9 @@ public class UtilisateurControllerTest {
 	public void getutilisateurKO_ID_inexistant() throws Exception {
 		
 		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setId((long) 999);
+		utilisateur.setId(999L);
 		
-		Mockito.when(utilisateurService.getUtilisateur((long) 999)).thenReturn(utilisateur);
+		Mockito.when(utilisateurService.getUtilisateur(999L)).thenReturn(utilisateur);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("http://localhost:8080/api/utilisateur/999").accept(MediaType.APPLICATION_JSON);
 		
@@ -79,11 +79,11 @@ public class UtilisateurControllerTest {
 		List<Utilisateur> listUtil = new ArrayList<Utilisateur>();
 		
 		Utilisateur utilisateur1 = new Utilisateur();
-		utilisateur1.setId((long) 1);
+		utilisateur1.setId(1L);
 		utilisateur1.setNom("nom1");
 		
 		Utilisateur utilisateur2 = new Utilisateur();
-		utilisateur2.setId((long) 2);
+		utilisateur2.setId(2L);
 		utilisateur2.setNom("nom2");
 		
 		listUtil.add(utilisateur1);
